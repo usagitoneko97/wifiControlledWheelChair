@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Locale;
@@ -116,7 +117,12 @@ public class MainActivity extends AppCompatActivity {
             NdefMessage ndefMessage = createTextMessage("hello there!");
 
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            writeTag(tag, ndefMessage);
+            if(writeTag(tag, ndefMessage)){
+                Toast.makeText(this, "Write successful", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(this, "Write failed", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -124,29 +130,52 @@ public class MainActivity extends AppCompatActivity {
         return intent.hasExtra(NfcAdapter.EXTRA_TAG);
     }
 
-    public void writeTag(Tag tag, NdefMessage message)  {
-        if (tag != null) {
-            try {
-                Ndef ndefTag = Ndef.get(tag);
-                if (ndefTag == null) {
-                    // Let's try to format the Tag in NDEF
-                    NdefFormatable nForm = NdefFormatable.get(tag);
-                    if (nForm != null) {
-                        nForm.connect();
-                        nForm.format(message);
-                        nForm.close();
+    boolean writeTag( Tag detectedTag, NdefMessage message) {
+        int size = message.toByteArray().length;
+        try {
+            Ndef ndef = Ndef.get(detectedTag);
+            if (ndef != null) {
+                ndef.connect();
+                if (!ndef.isWritable()) {
+                    Toast.makeText(this, "Tag is read-only.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                if (ndef.getMaxSize() < size) {
+                    Toast.makeText(this, "The data cannot written to tag, Tag capacity is " + ndef.getMaxSize() + " bytes, message is "
+                                    + size + " bytes.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                ndef.writeNdefMessage(message);
+                ndef.close();
+                Toast.makeText(this, "Message is written tag.",
+                        Toast.LENGTH_SHORT).show();
+                return true;
+            } else {
+                NdefFormatable ndefFormat = NdefFormatable.get(detectedTag);
+                if (ndefFormat != null) {
+                    try {
+                        ndefFormat.connect();
+                        ndefFormat.format(message);
+                        ndefFormat.close();
+                        Toast.makeText(this, "The data is written to the tag ",
+                                Toast.LENGTH_SHORT).show();
+                        return true;
+                    } catch (IOException e) {
+                        Toast.makeText(this, "Failed to format tag",
+                                Toast.LENGTH_SHORT).show();
+                        return false;
                     }
-                }
-                else {
-                    ndefTag.connect();
-                    ndefTag.writeNdefMessage(message);
-                    ndefTag.close();
+                } else {
+                    Toast.makeText(this, "NDEF is not supported",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
                 }
             }
-            catch(Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Write opreation is failed",
+                    Toast.LENGTH_SHORT).show();
         }
+        return false;
     }
 
     public NdefMessage createTextMessage(String content) {
