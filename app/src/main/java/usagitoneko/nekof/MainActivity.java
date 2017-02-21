@@ -11,6 +11,7 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,8 +23,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     NfcAdapter mNfcAdapter;
@@ -108,9 +111,68 @@ public class MainActivity extends AppCompatActivity {
          *
          * In our case this method gets called, when the user attaches a Tag to the device.
          */
-        handleIntent(intent);
+        handleIntent(intent); //read data on the tag and display to the textview
+        if(isNfcIntent(intent)){
+            NdefMessage ndefMessage = createTextMessage("hello there!");
+
+            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            writeTag(tag, ndefMessage);
+        }
     }
 
+    boolean isNfcIntent(Intent intent) {
+        return intent.hasExtra(NfcAdapter.EXTRA_TAG);
+    }
+
+    public void writeTag(Tag tag, NdefMessage message)  {
+        if (tag != null) {
+            try {
+                Ndef ndefTag = Ndef.get(tag);
+                if (ndefTag == null) {
+                    // Let's try to format the Tag in NDEF
+                    NdefFormatable nForm = NdefFormatable.get(tag);
+                    if (nForm != null) {
+                        nForm.connect();
+                        nForm.format(message);
+                        nForm.close();
+                    }
+                }
+                else {
+                    ndefTag.connect();
+                    ndefTag.writeNdefMessage(message);
+                    ndefTag.close();
+                }
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public NdefMessage createTextMessage(String content) {
+        try {
+            // Get UTF-8 byte
+            byte[] lang = Locale.getDefault().getLanguage().getBytes("UTF-8");
+            byte[] text = content.getBytes("UTF-8"); // Content in UTF-8
+
+            int langSize = lang.length;
+            int textLength = text.length;
+
+            ByteArrayOutputStream payload = new ByteArrayOutputStream(1 + langSize + textLength);
+            payload.write((byte) (langSize & 0x1F));
+            payload.write(lang, 0, langSize);
+            payload.write(text, 0, textLength);
+            NdefRecord record = new NdefRecord(NdefRecord.TNF_WELL_KNOWN,
+                    NdefRecord.RTD_TEXT, new byte[0],
+                    payload.toByteArray());
+            return new NdefMessage(new NdefRecord[]{record});
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
     /**
      * @param activity The corresponding {@link Activity} requesting the foreground dispatch.
      * @param adapter  The {@link NfcAdapter} used for the foreground dispatch.
