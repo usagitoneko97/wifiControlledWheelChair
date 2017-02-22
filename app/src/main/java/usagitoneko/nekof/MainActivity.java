@@ -12,6 +12,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.nfc.tech.NdefFormatable;
+import android.nfc.tech.NfcV;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -84,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -95,13 +95,11 @@ public class MainActivity extends AppCompatActivity {
         setupForegroundDispatch(this, mNfcAdapter);
     }
 
-
     @Override
     protected void onPause() {
         stopForegroundDispatch(this, mNfcAdapter);
         super.onPause();
     }
-
 
     @Override
     public void onNewIntent(Intent intent) {
@@ -112,18 +110,46 @@ public class MainActivity extends AppCompatActivity {
          *
          * In our case this method gets called, when the user attaches a Tag to the device.
          */
-        handleIntent(intent); //read data on the tag and display to the textview
-        if(isNfcIntent(intent)){
-            NdefMessage ndefMessage = createTextMessage("hello there!");
-
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            if(writeTag(tag, ndefMessage)){
-                Toast.makeText(this, "Write successful", Toast.LENGTH_SHORT).show();
+        if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction()))
+        {
+            Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            NfcV nfcv = NfcV.get(detectedTag);
+            if(nfcv == null){
+                Toast.makeText(this, "you are doom!", Toast.LENGTH_SHORT).show();
             }
-            else{
-                Toast.makeText(this, "Write failed", Toast.LENGTH_SHORT).show();
+            else {
+                Toast.makeText(this, "you can proceed!", Toast.LENGTH_SHORT).show();
+
+                try {
+                    nfcv.connect();
+                    if (nfcv.isConnected()) {
+                        nfc_result.append("Connected to the tag");
+                        nfc_result.append("\nTag DSF: " + Byte.toString(nfcv.getDsfId()));
+                        byte[] buffer;
+                        buffer =nfcv.transceive(new byte[] {0x00, 0x20, (byte) 0}); //read 0th byte
+                        //buffer = nfcv.transceive(new byte[]{0x00, 0x21, (byte) 10, 0x00, 0x00, 0x72, 0x75});
+                        nfc_result.append("\nByte block 10:" + buffer);
+                        nfc_result.append("\nByte block 10 as string:" + new String(buffer));
+                        nfcv.close();
+                    } else
+                        nfc_result.append("Not connected to the tag");
+                } catch (IOException e) {
+                    nfc_result.append("Error");
+                }
+
             }
         }
+
+        else {  //has NDEF inside the tag
+            handleIntent(intent); //read data on the tag and display to the textview
+            if (isNfcIntent(intent)) {
+                NdefMessage ndefMessage = createTextMessage("hello there!");
+
+                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                writeTag(tag, ndefMessage);
+            }
+        }
+
     }
 
     boolean isNfcIntent(Intent intent) {
@@ -147,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 ndef.writeNdefMessage(message);
                 ndef.close();
-                Toast.makeText(this, "Message is written tag.",
+                Toast.makeText(this, "Message is written!",
                         Toast.LENGTH_SHORT).show();
                 return true;
             } else {
@@ -299,4 +325,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-
+//// TODO: 22/2/2017 interacting with nucleo device
+//// TODO: 22/2/2017 sends and receive with raw data
+//// TODO: 22/2/2017 try out aar and verify
