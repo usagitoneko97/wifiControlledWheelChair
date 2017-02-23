@@ -21,26 +21,32 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     NfcAdapter mNfcAdapter;
     public TextView nfc_result;
+    public Switch led2;
     public static final String MIME_TEXT_PLAIN = "text/plain";
     public static final String TAG = "NfcDemo";
+    int buffer_receive[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         nfc_result = (TextView) findViewById(R.id.nfc_result);
+        led2 = (Switch) findViewById(R.id.led2);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (mNfcAdapter == null) {
             Toast.makeText(this, "This device doesn't support NFC. ", Toast.LENGTH_SHORT).show();
@@ -51,6 +57,20 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //display whatever title desired
         }
+        //for the switch
+        led2.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener(){
+                    public void onCheckedChanged(
+                        CompoundButton buttonView, boolean isChecked){
+                        if(isChecked){
+
+                        }
+                        else{
+
+                        }
+                        }
+                    }
+        );
         handleIntent(getIntent());
 
 
@@ -69,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Log.d(TAG, "Wrong mime type: " + type);
             }
-        } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
+        } /*else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
 
             // In case we would still use the Tech Discovered Intent
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
@@ -82,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
-        }
+        }*/ //TECH_DISCOVERED will filter on the onNewIntent
     }
 
     @Override
@@ -115,21 +135,33 @@ public class MainActivity extends AppCompatActivity {
             Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             NfcV nfcv = NfcV.get(detectedTag);
             if(nfcv == null){
+                //not nfcV type
                 Toast.makeText(this, "you are doom!", Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(this, "you can proceed!", Toast.LENGTH_SHORT).show();
-
                 try {
                     nfcv.connect();
                     if (nfcv.isConnected()) {
                         nfc_result.append("Connected to the tag");
                         nfc_result.append("\nTag DSF: " + Byte.toString(nfcv.getDsfId()));
                         byte[] buffer;
-                        buffer =nfcv.transceive(new byte[] {0x00, 0x20, (byte) 0}); //read 0th byte
-                        //buffer = nfcv.transceive(new byte[]{0x00, 0x21, (byte) 10, 0x00, 0x00, 0x72, 0x75});
+                        String buffer_hex;
+                        //read tag
+                        buffer =nfcv.transceive(new byte[] {0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
                         nfc_result.append("\nByte block 10:" + buffer);
                         nfc_result.append("\nByte block 10 as string:" + new String(buffer));
+                        buffer_hex = toHex(new String(buffer));     //bugs:a line of 00000000 will appear // TODO: 23/2/2017 solve the bugs
+                        int buffer_int = Integer.parseInt(buffer_hex, 16);
+                        buffer_hex = Integer.toHexString(buffer_int);    //temp solution for the bugs
+                        nfc_result.append("\nValue in hex: "+buffer_hex);
+                        nfc_result.append("\nValue in integer"+buffer_int);
+                        buffer_receive[0] = (buffer_int & 0xff);
+                        buffer_receive[1] = (buffer_int & 0xff00)>>8;
+                        buffer_receive[2] = (buffer_int&0xff0000)>>16;
+
+                        //write (0x00, 0x00, 0x72, 0x75) into tag address 0
+                        buffer = nfcv.transceive(new byte[]{(byte)0x02, (byte)0x21, (byte) 0, (byte)0x00,(byte) 0x00, (byte)0x72, (byte)0x75});
+                        Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
                         nfcv.close();
                     } else
                         nfc_result.append("Not connected to the tag");
@@ -239,12 +271,13 @@ public class MainActivity extends AppCompatActivity {
         final PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, 0);
 
         IntentFilter[] filters = new IntentFilter[1];
-        String[][] techList = new String[][]{};
+        String[][] techList = new String[][]{new String[]{NfcV.class.getName()}}; //added NfcV
 
         // Notice that this is the same filter as in our manifest.
         filters[0] = new IntentFilter();
         filters[0].addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
         filters[0].addCategory(Intent.CATEGORY_DEFAULT);
+
         try {
             filters[0].addDataType(MIME_TEXT_PLAIN);
         } catch (IntentFilter.MalformedMimeTypeException e) {
@@ -324,7 +357,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    public String toHex(String arg) {
+        return String.format("%040x", new BigInteger(1, arg.getBytes(/*YOUR_CHARSET?*/)));
+    }
 }
-//// TODO: 22/2/2017 interacting with nucleo device
-//// TODO: 22/2/2017 sends and receive with raw data
-//// TODO: 22/2/2017 try out aar and verify
+// TODO: 22/2/2017 interacting with nucleo device with a simple program
+// TODO: 22/2/2017 try out aar and verify*
+// TODO: 23/2/2017 unable to store 0 into int or hex
+// TODO: 23/2/2017 switching between NDEF data and non-NDEF data*
