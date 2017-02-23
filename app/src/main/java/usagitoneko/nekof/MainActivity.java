@@ -16,10 +16,7 @@ import android.nfc.tech.NfcV;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -38,18 +35,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     NfcAdapter mNfcAdapter;
     public TextView nfc_result;
     private Switch led2;
+    private Switch led_blue;
+    private Switch led_green;
+    private Switch led_orange;
     private Button set_Led2;
     private boolean permission_setLed2;
     public static final String MIME_TEXT_PLAIN = "text/plain";
     public static final String TAG = "NfcDemo";
     int buffer_receive[];
     private boolean led2_state;
+    private boolean led_blue_state;
+    private boolean led_green_state;
+    private boolean led_orange_state;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         nfc_result = (TextView) findViewById(R.id.nfc_result);
         led2 = (Switch) findViewById(R.id.led2);
+        led_blue = (Switch)findViewById(R.id.led_blue);
+        led_green = (Switch)findViewById(R.id.led_green);
+        led_orange = (Switch)findViewById(R.id.led_orange) ;
         set_Led2 = (Button)findViewById(R.id.set_led2);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         //listen to button clicks
@@ -77,6 +83,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                         }
                     }
+        );
+        led_green.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener(){
+                    public void onCheckedChanged(
+                            CompoundButton buttonView, boolean isChecked){
+                        if(isChecked){
+                            led_green_state=true;
+                        }
+                        else{
+                            led_green_state=false;
+                        }
+                    }
+                }
+        );
+        led_blue.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener(){
+                    public void onCheckedChanged(
+                            CompoundButton buttonView, boolean isChecked){
+                        if(isChecked){
+                            led_blue_state=true;
+                        }
+                        else{
+                            led_blue_state=false;
+                        }
+                    }
+                }
+        );
+        led_orange.setOnCheckedChangeListener(
+                new CompoundButton.OnCheckedChangeListener(){
+                    public void onCheckedChanged(
+                            CompoundButton buttonView, boolean isChecked){
+                        if(isChecked){
+                            led_orange_state=true;
+                        }
+                        else{
+                            led_orange_state=false;
+                        }
+                    }
+                }
         );
         handleIntent(getIntent());
 
@@ -157,28 +202,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         buffer = nfcv.transceive(new byte[]{0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
                         buffer_hex = toHex(new String(buffer));     //bugs:a line of 00000000 will appear // TODO: 23/2/2017 solve the bugs
                         long buffer_long = Long.parseLong(buffer_hex, 16);
-                        buffer_long &= 0x01000000;//take the 1st bit of 1st byte
-                        buffer_long = buffer_long >> 24;
+                        long temp_led2 =  (buffer_long & 0x01000000)>>24;//take the 1st bit of 1st byte
+                        long temp_led_green = (buffer_long &0x02000000)>>25;//take the 2nd bit of 1st byte
+                        long temp_led_blue = (buffer_long &0x04000000)>>26;//take the 3rd bit of 1st byte
+                        long temp_led_orange = (buffer_long &0x08000000)>>27;//take the 4th bit of 1st byte
 
-                        if (buffer_long == 1) {
+                        if (temp_led2 == 1) {
                             //led is initially on
                             nfc_result.setText("Led2 is on! :D");
-                        } else {
+                        }else {
                             //led is initially off
                             nfc_result.setText("Led2 is off! :(");
+                        }if (temp_led_green == 1) {
+                            nfc_result.append("\nGreen Led is on! :D");
+                        } else {
+                            nfc_result.append("\nGreen Led is off! :(");
+                        }if (temp_led_blue == 1) {
+                            nfc_result.append("\nBlue Led is on! :D");
+                        } else {
+                            nfc_result.append("\nBlue Led is off! :(");
+                        }if (temp_led_orange == 1) {
+                            nfc_result.append("\nOrange Led is on! :D");
+                        } else {
+                            nfc_result.append("\nOrange Led is off! :(");
                         }
+
+                        //take value from switch which listen in onCreate function
                         if (permission_setLed2) {
-                            //write (0x00, 0x00, 0x72, 0x75) into tag address 0
                             permission_setLed2=false;
-                            if (led2_state) {
-                                buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) 0x11, (byte) 0x00, (byte) 0x72, (byte) 0x75}); //11 instead of 01 is because to avoid nfcv cant read 00 bug
-                                Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
-                                nfcv.close();
-                            } else {
-                                buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) 0x10, (byte) 0x00, (byte) 0x72, (byte) 0x75});
-                                Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
-                                nfcv.close();
+                            int result_AllLed = 0x10;//initial value predefined
+                            if(led2_state){
+                                result_AllLed = result_AllLed|(1<<0); //set bit 0
                             }
+                            if(led_green_state){
+                                result_AllLed = result_AllLed|(1<<1); //set bit 1
+                            }
+                            if(led_blue_state){
+                                result_AllLed = result_AllLed|(1<<2); //set bit 2
+                            }
+                            if(led_orange_state){
+                                result_AllLed = result_AllLed|(1<<3); //set bit 3
+                            }
+
+                                buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) result_AllLed, (byte) 0x00, (byte) 0x72, (byte) 0x75}); //11 instead of 01 is because to avoid nfcv cant read 00 bug
+                                // TODO: 23/2/2017   should do checking at buffer
+                                Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
+                                nfcv.close();
+
                         }
 
                     }else
@@ -319,10 +389,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.set_led2:
                 permission_setLed2 = true;
                 Toast.makeText(this, "please place your phone close to the tag.", Toast.LENGTH_SHORT).show();
+                /*Loading_dialog loading_dialog = new Loading_dialog();
+                loading_dialog.show(getFragmentManager(), "123");*/
                 break;
         }
 
     }
+
+    public boolean ispermission_setLed2(){
+        return permission_setLed2;
+    }
+
 
 
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
@@ -395,3 +472,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 // TODO: 22/2/2017 try out aar and verify*
 // TODO: 23/2/2017 unable to store 0 into int or hex
 // TODO: 23/2/2017 switching between NDEF data and non-NDEF data*
+// TODO: 23/2/2017 simplyfy checking of led state and others
+// TODO: 23/2/2017 anonymous class of the switch should be modified to make it shorter (probably dont use anonymous)

@@ -26,18 +26,45 @@
         android:layout_height="wrap_content"
         android:id="@+id/led2"
         android:checked="false"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="71dp"
         android:layout_below="@+id/nfc_result"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Switch
+        android:text="Green Led"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/led2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/led_green" />
+
+    <Switch
+        android:text="Blue Led"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/led_green"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/led_blue" />
+
+    <Switch
+        android:text="Orange Led"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/led_blue"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/led_orange" />
 
     <Button
         android:text="SET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/led2"
-        android:layout_alignRight="@+id/led2"
-        android:layout_alignEnd="@+id/led2"
-        android:layout_marginTop="50dp"
         android:id="@+id/set_led2"
-        android:elevation="0dp" />
+        android:elevation="0dp"
+        android:layout_below="@+id/led_orange"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp" />
 </RelativeLayout>
