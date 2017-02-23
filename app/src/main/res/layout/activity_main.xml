@@ -11,7 +11,7 @@
     tools:context="usagitoneko.nekof.MainActivity">
 
     <TextView
-        android:text="TextView"
+        android:text="Please place your phone near the tag to get current status."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="62dp"
@@ -26,10 +26,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/led2"
         android:checked="false"
+        android:layout_marginTop="65dp"
         android:layout_below="@+id/nfc_result"
-        android:layout_toLeftOf="@+id/nfc_result"
-        android:layout_toStartOf="@+id/nfc_result"
-        android:layout_marginRight="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="91dp" />
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="SET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/led2"
+        android:layout_alignRight="@+id/led2"
+        android:layout_alignEnd="@+id/led2"
+        android:layout_marginTop="50dp"
+        android:id="@+id/set_led2"
+        android:elevation="0dp" />
 </RelativeLayout>

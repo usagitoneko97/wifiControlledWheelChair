@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -33,21 +34,27 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     NfcAdapter mNfcAdapter;
     public TextView nfc_result;
-    public Switch led2;
+    private Switch led2;
+    private Button set_Led2;
+    private boolean permission_setLed2;
     public static final String MIME_TEXT_PLAIN = "text/plain";
     public static final String TAG = "NfcDemo";
     int buffer_receive[];
-
+    private boolean led2_state;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         nfc_result = (TextView) findViewById(R.id.nfc_result);
         led2 = (Switch) findViewById(R.id.led2);
+        set_Led2 = (Button)findViewById(R.id.set_led2);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        //listen to button clicks
+        set_Led2.setOnClickListener(this);
+
         if (mNfcAdapter == null) {
             Toast.makeText(this, "This device doesn't support NFC. ", Toast.LENGTH_SHORT).show();
             return;
@@ -63,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onCheckedChanged(
                         CompoundButton buttonView, boolean isChecked){
                         if(isChecked){
-
+                            led2_state=true;
                         }
                         else{
-
+                            led2_state=false;
                         }
                         }
                     }
@@ -146,24 +153,35 @@ public class MainActivity extends AppCompatActivity {
                         nfc_result.append("\nTag DSF: " + Byte.toString(nfcv.getDsfId()));
                         byte[] buffer;
                         String buffer_hex;
-                        //read tag
-                        buffer =nfcv.transceive(new byte[] {0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
-                        nfc_result.append("\nByte block 10:" + buffer);
-                        nfc_result.append("\nByte block 10 as string:" + new String(buffer));
-                        buffer_hex = toHex(new String(buffer));     //bugs:a line of 00000000 will appear // TODO: 23/2/2017 solve the bugs
-                        int buffer_int = Integer.parseInt(buffer_hex, 16);
-                        buffer_hex = Integer.toHexString(buffer_int);    //temp solution for the bugs
-                        nfc_result.append("\nValue in hex: "+buffer_hex);
-                        nfc_result.append("\nValue in integer"+buffer_int);
-                        buffer_receive[0] = (buffer_int & 0xff);
-                        buffer_receive[1] = (buffer_int & 0xff00)>>8;
-                        buffer_receive[2] = (buffer_int&0xff0000)>>16;
 
-                        //write (0x00, 0x00, 0x72, 0x75) into tag address 0
-                        buffer = nfcv.transceive(new byte[]{(byte)0x02, (byte)0x21, (byte) 0, (byte)0x00,(byte) 0x00, (byte)0x72, (byte)0x75});
-                        Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
-                        nfcv.close();
-                    } else
+                        buffer = nfcv.transceive(new byte[]{0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
+                        buffer_hex = toHex(new String(buffer));     //bugs:a line of 00000000 will appear // TODO: 23/2/2017 solve the bugs
+                        long buffer_long = Long.parseLong(buffer_hex, 16);
+                        buffer_long &= 0x01000000;//take the 1st bit of 1st byte
+                        buffer_long = buffer_long >> 24;
+
+                        if (buffer_long == 1) {
+                            //led is initially on
+                            nfc_result.setText("Led2 is on! :D");
+                        } else {
+                            //led is initially off
+                            nfc_result.setText("Led2 is off! :(");
+                        }
+                        if (permission_setLed2) {
+                            //write (0x00, 0x00, 0x72, 0x75) into tag address 0
+                            permission_setLed2=false;
+                            if (led2_state) {
+                                buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) 0x11, (byte) 0x00, (byte) 0x72, (byte) 0x75}); //11 instead of 01 is because to avoid nfcv cant read 00 bug
+                                Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
+                                nfcv.close();
+                            } else {
+                                buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) 0x10, (byte) 0x00, (byte) 0x72, (byte) 0x75});
+                                Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
+                                nfcv.close();
+                            }
+                        }
+
+                    }else
                         nfc_result.append("Not connected to the tag");
                 } catch (IOException e) {
                     nfc_result.append("Error");
@@ -293,6 +311,17 @@ public class MainActivity extends AppCompatActivity {
      */
     public static void stopForegroundDispatch(final Activity activity, NfcAdapter adapter) {
         adapter.disableForegroundDispatch(activity);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.set_led2:
+                permission_setLed2 = true;
+                Toast.makeText(this, "please place your phone close to the tag.", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
     }
 
 
