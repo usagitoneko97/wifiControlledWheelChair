@@ -5,6 +5,7 @@ package usagitoneko.nekof;
 import android.app.Activity;
 //import android.support.v4.app.Fragment;
 //import android.app.Fragment;
+//import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,7 +18,7 @@ import android.nfc.tech.NdefFormatable;
 import android.nfc.tech.NfcV;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
+//import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -42,7 +44,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.onSomeEventListener {
     SimpleFragmentPagerAdapter pageAdapter;
     NfcAdapter mNfcAdapter;
     public TextView nfc_result;
@@ -59,26 +61,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean ledBlueState;
     private boolean ledGreenState;
     private boolean ledOrangeState;
+    private boolean[] allBool;
+
+    private ViewPager pager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.init_activity);
+       /* FragmentManager fmanager = getFragmentManager();
+        Fragment frag = fmanager.findFragmentById(R.id.activity_main);
+        if(frag == null){
+            //initialize frag
+            frag = new MainFragment();
+            fmanager.beginTransaction().add(R.id.activity_main, frag).commit();
+        }*/
+        /*Fragment frag = new MainFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.activity_main, frag);
+        ft.commit();*/
 
         //initialize a list of three fragments
-        List<Fragment> fragmentList = new ArrayList<Fragment>();
+        //List<Fragment> fragmentList = new ArrayList<Fragment>();
         //Add number of new Fragments to the list
-        fragmentList.add(FragmentLog.newInstance("1"));
-        fragmentList.add(FragmentLog.newInstance("2"));
-        pageAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
-        ViewPager pager = (ViewPager)findViewById(R.id.pager);
+
+       // fragmentList.add(new MainFragment());
+        //fragmentList.add(new MainFragment());
+        //fragmentList.add(FragmentLog.newInstance("1"));
+        pageAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager());
+//        pageAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
+         pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(pageAdapter);
 
-        nfc_result = (TextView) findViewById(R.id.nfc_result);
-        led2 = (Switch) findViewById(R.id.led2);
-        led_blue = (Switch)findViewById(R.id.led_blue);
-        led_green = (Switch)findViewById(R.id.led_green);
-        led_orange = (Switch)findViewById(R.id.led_orange) ;
-        set_Led2 = (Button)findViewById(R.id.set_led2);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         /*FragmentManager fragmentManager = getFragmentManager();
         Fragment frag = fragmentManager.findFragmentById(R.id.simpleFragment);
@@ -92,8 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //listen to button clicks
-        set_Led2.setOnClickListener(this);
-
         if (mNfcAdapter == null) {
             Toast.makeText(this, "This device doesn't support NFC. ", Toast.LENGTH_SHORT).show();
             return;
@@ -103,64 +114,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             //display whatever title desired
         }
-        //for the switch
-        final LedState ledWrite = new LedState();
-        led2.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener(){
-                    public void onCheckedChanged(
-                        CompoundButton buttonView, boolean isChecked){
-                        if(isChecked){
-                            led2State=true;
-                        }
-                        else{
-                            led2State=false;
-                        }
-                        }
-                    }
-        );
-        led_green.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener(){
-                    public void onCheckedChanged(
-                            CompoundButton buttonView, boolean isChecked){
-                        if(isChecked){
-                            ledGreenState=true;
-                        }
-                        else{
-                            ledGreenState=false;
-                        }
-                    }
-                }
-        );
-        led_blue.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener(){
-                    public void onCheckedChanged(
-                            CompoundButton buttonView, boolean isChecked){
-                        if(isChecked){
-                            ledBlueState=true;
-                        }
-                        else{
-                            ledWrite.setBlueLedState(false);
-                            ledBlueState=false;
-                        }
-                    }
-                }
-        );
-        led_orange.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener(){
-                    public void onCheckedChanged(
-                            CompoundButton buttonView, boolean isChecked){
-                        if(isChecked){
-                            ledOrangeState=true;
-                        }
-                        else{
-                            ledOrangeState=false;
-                        }
-                    }
-                }
-        );
+
         handleIntent(getIntent());
+    }
 
-
+    @Override
+    public void someEvent(boolean[] allBool){
+        this.allBool = allBool;
     }
 
     private void handleIntent(Intent intent) {
@@ -399,18 +359,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter.disableForegroundDispatch(activity);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.set_led2:
-                PermissionSetLed2 = true;
-                Toast.makeText(this, "please place your phone close to the tag.", Toast.LENGTH_SHORT).show();
-                /*Loading_dialog loading_dialog = new Loading_dialog();
-                loading_dialog.show(getFragmentManager(), "123");*/
-                break;
-        }
-
-    }
 
     public boolean isPermissionSetLed2(){
         return PermissionSetLed2;
@@ -435,21 +383,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments;
 
-        public SimpleFragmentPagerAdapter (FragmentManager fm, List<Fragment> fragments){
+        public SimpleFragmentPagerAdapter (FragmentManager fm){
             super(fm);
-            this.fragments = fragments;
         }
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return this.fragments.get(position);
+            if(position ==0){
+                return (new MainFragment());
+            }
+            else if(position ==1){
+                return (new FragmentLog());
+            }
+            else{
+                //default value should be other instead of this
+                return null;
+            }
+
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return this.fragments.size();
+            return 2;
         }
 
         @Override
