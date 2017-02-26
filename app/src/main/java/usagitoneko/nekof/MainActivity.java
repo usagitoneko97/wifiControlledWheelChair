@@ -3,6 +3,8 @@ package usagitoneko.nekof;
 
 
 import android.app.Activity;
+//import android.support.v4.app.Fragment;
+//import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -15,6 +17,7 @@ import android.nfc.tech.NdefFormatable;
 import android.nfc.tech.NfcV;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,15 +26,24 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+//import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    SimpleFragmentPagerAdapter pageAdapter;
     NfcAdapter mNfcAdapter;
     public TextView nfc_result;
     private Switch led2;
@@ -51,6 +63,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //initialize a list of three fragments
+        List<Fragment> fragmentList = new ArrayList<Fragment>();
+        //Add number of new Fragments to the list
+        fragmentList.add(FragmentLog.newInstance("1"));
+        fragmentList.add(FragmentLog.newInstance("2"));
+        pageAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
+        ViewPager pager = (ViewPager)findViewById(R.id.pager);
+        pager.setAdapter(pageAdapter);
+
         nfc_result = (TextView) findViewById(R.id.nfc_result);
         led2 = (Switch) findViewById(R.id.led2);
         led_blue = (Switch)findViewById(R.id.led_blue);
@@ -58,6 +80,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         led_orange = (Switch)findViewById(R.id.led_orange) ;
         set_Led2 = (Button)findViewById(R.id.set_led2);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        /*FragmentManager fragmentManager = getFragmentManager();
+        Fragment frag = fragmentManager.findFragmentById(R.id.simpleFragment);
+
+        if(frag == null){
+            //initialize fragment
+            frag = new FragmentLog();
+            fragmentManager.beginTransaction().add(R.id.simpleFragment, frag).commit();
+
+        }*/
+
 
         //listen to button clicks
         set_Led2.setOnClickListener(this);
@@ -393,7 +425,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return result;
     }
 
+    public String toHex(String arg) {
+        return String.format("%040x", new BigInteger(1, arg.getBytes(/*YOUR_CHARSET?*/)));
+    }
+    public String numberToHex(int value) {
+        return String.format("0x%x",value);
+    }
 
+    private class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
+        private List<Fragment> fragments;
+
+        public SimpleFragmentPagerAdapter (FragmentManager fm, List<Fragment> fragments){
+            super(fm);
+            this.fragments = fragments;
+        }
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return this.fragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return this.fragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "SECTION 1";
+                case 1:
+                    return "SECTION 2";
+                case 2:
+                    return "SECTION 3";
+            }
+            return null;
+        }
+
+
+    }
 
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
 
@@ -457,12 +530,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public String toHex(String arg) {
-        return String.format("%040x", new BigInteger(1, arg.getBytes(/*YOUR_CHARSET?*/)));
-    }
-    public String numberToHex(int value) {
-        return String.format("0x%x",value);
-    }
+
 
 }
 // TODO: 22/2/2017 interacting with nucleo device with a simple program

@@ -4,9 +4,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-/**
- * Created by DareBacon on 24/2/2017.
- */
+
 
 public class LedState {
     final public  int LED2 =0x1 ;
