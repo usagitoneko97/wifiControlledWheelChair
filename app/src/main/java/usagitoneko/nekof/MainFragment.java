@@ -1,6 +1,7 @@
 package usagitoneko.nekof;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -39,7 +40,7 @@ public class MainFragment extends Fragment {
     private boolean ledGreenState;
     private boolean ledOrangeState;
     private boolean PermissionSetLed2;
-    private boolean[] allBool;
+    private boolean[] allBool =new boolean[5];
 
     public MainFragment() {
         // Required empty public constructor
@@ -51,18 +52,31 @@ public class MainFragment extends Fragment {
 
     }*/
     public interface onSomeEventListener{
-        public void someEvent(boolean[] s);
+        public void someEvent(boolean[] allBool);
     }
     onSomeEventListener someEventListener;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Activity a;
+        if(context instanceof Activity){
+            a = (Activity) context;
+        }
+        else{
+            a= null;
+        }
         try{
-            someEventListener = (onSomeEventListener)context;
+            someEventListener = (onSomeEventListener) a;
         }catch(ClassCastException e){
             throw new ClassCastException(context.toString()+ "must implement onSomeEventListener");
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        someEventListener = null;
     }
 
     @Override
@@ -76,7 +90,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        nfc_result = (TextView) getActivity().findViewById(R.id.nfc_result);
+        nfc_result = (TextView) view.findViewById(R.id.nfc_result);
         led2 = (Switch)view.findViewById(R.id.led2);
         led_blue = (Switch) view.findViewById(R.id.led_blue);
         led_green = (Switch) view.findViewById(R.id.led_green);

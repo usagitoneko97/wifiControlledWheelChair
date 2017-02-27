@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
         } else {
             //display whatever title desired
         }
-
         handleIntent(getIntent());
     }
 
@@ -183,54 +182,53 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
             NfcV nfcv = NfcV.get(detectedTag);
             if(nfcv == null){
                 //not nfcV type
-                Toast.makeText(this, "you are doom!", Toast.LENGTH_SHORT).show();
             }
             else {
                 try {
                     nfcv.connect();
                     if (nfcv.isConnected()) {
-                        nfc_result.append("Connected to the tag");
-                        nfc_result.append("\nTag DSF: " + Byte.toString(nfcv.getDsfId()));
+                        /*nfc_result.append("Connected to the tag");
+                        nfc_result.append("\nTag DSF: " + Byte.toString(nfcv.getDsfId()));*/
                         byte[] buffer;
 
                         //take value from switch which listen in onCreate function
-                        if (PermissionSetLed2) {
-                            PermissionSetLed2=false;
+                        if (allBool[4]) {
+                            allBool[4] = false;
                             int resultAllLed = 0x10;//initial value predefined
-                            if(led2State){
-                                resultAllLed = resultAllLed|(1<<0); //set bit 0
+                            if (allBool[0]) {
+                                resultAllLed = resultAllLed | (1 << 0); //set bit 0
                             }
-                            if(ledGreenState){
-                                resultAllLed = resultAllLed|(1<<1); //set bit 1
+                            if (allBool[1]) {
+                                resultAllLed = resultAllLed | (1 << 1); //set bit 1
                             }
-                            if(ledBlueState){
-                                resultAllLed = resultAllLed|(1<<2); //set bit 2
+                            if (allBool[2]) {
+                                resultAllLed = resultAllLed | (1 << 2); //set bit 2
                             }
-                            if(ledOrangeState){
-                                resultAllLed = resultAllLed|(1<<3); //set bit 3
+                            if (allBool[3]) {
+                                resultAllLed = resultAllLed | (1 << 3); //set bit 3
                             }
-                                buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) resultAllLed, (byte) 0x00, (byte) 0x72, (byte) 0x75}); //11 instead of 01 is because to avoid nfcv cant read 00 bug
-                                // TODO: 23/2/2017   should do checking at buffer
-                                Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
-                                nfcv.close();
-
+                            buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) resultAllLed, (byte) 0x00, (byte) 0x72, (byte) 0x75}); //11 instead of 01 is because to avoid nfcv cant read 00 bug
+                            // TODO: 23/2/2017   should do checking at buffer
+                            //Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
+                        }
                             String buffer_hex;
                             buffer = nfcv.transceive(new byte[]{0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
                             int ledStatus = toInteger(buffer);
-                            nfc_result.append("\nled status: "+ ledStatus +", "+ numberToHex(ledStatus));   //checking purpose
+                            /*nfc_result.append("\nled status: "+ ledStatus +", "+ numberToHex(ledStatus));   //checking purpose
                             //buffer_hex = toHex(new String(buffer));     //bugs:a line of 00000000 will appear // TODO: 23/2/2017 solve the bugs
                             //long buffer_long = Long.parseLong(buffer_hex, 16);
                             LedState ledState = new LedState(nfc_result, ledStatus);
                             ledState.printLedState(ledState.LED2);
                             ledState.printLedState(ledState.BLUE);
                             ledState.printLedState(ledState.GREEN);
-                            ledState.printLedState(ledState.ORANGE);
-                        }
+                            ledState.printLedState(ledState.ORANGE);*/
 
-                    }else
-                        nfc_result.append("Not connected to the tag");
+                            nfcv.close();
+
+                    }//else
+                        //nfc_result.append("Not connected to the tag");
                 } catch (IOException e) {
-                    nfc_result.append("Error");
+                    //nfc_result.append("Error");
                 }
 
             }
@@ -245,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                 writeTag(tag, ndefMessage);
             }
         }
-
     }
 
     boolean isNfcIntent(Intent intent) {
@@ -397,7 +394,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                 return (new FragmentLog());
             }
             else{
-                //default value should be other instead of this
                 return null;
             }
 
@@ -496,3 +492,4 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 // TODO: 23/2/2017 switching between NDEF data and non-NDEF data*
 // TODO: 23/2/2017 simplyfy checking of led state and others
 // TODO: 23/2/2017 anonymous class of the switch should be modified to make it shorter (probably dont use anonymous)
+// TODO: 27/2/2017 setText on others fragment
