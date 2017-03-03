@@ -7,7 +7,7 @@ import org.w3c.dom.Text;
 
 
 public class LedState {
-    final public  int LED2 =0x1 ;
+    final public  int LED2 =0x01 ;
     final public int GREEN = 0x02;
     final public int BLUE =0x04;
     final public int ORANGE =0x08 ;
@@ -53,9 +53,7 @@ public class LedState {
     public LedState(TextView nfc_result, int ledStatus){
         this.nfc_result = nfc_result;
         this.ledStatus = ledStatus;
-    }
-    public LedState(){
-
+        nfc_result.setText(""); //to clear the status of led every newIntent come
     }
 
     public boolean isLed(int led_colour){

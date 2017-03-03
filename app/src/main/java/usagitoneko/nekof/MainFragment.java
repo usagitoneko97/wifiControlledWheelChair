@@ -27,7 +27,7 @@ import android.support.v4.app.FragmentTransaction;
  */
 public class MainFragment extends Fragment {
 
-
+    protected View mView;
     private Switch led2;
     private Switch led_blue;
     private Switch led_green;
@@ -96,7 +96,7 @@ public class MainFragment extends Fragment {
         led_green = (Switch) view.findViewById(R.id.led_green);
         led_orange = (Switch) view.findViewById(R.id.led_orange) ;
         set_Led2 = (Button) view.findViewById(R.id.set_led2);
-
+        this.mView = view;
         set_Led2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -170,5 +170,6 @@ public class MainFragment extends Fragment {
         someEventListener.someEvent(allBool);
         return view;
     }
+
 
 }

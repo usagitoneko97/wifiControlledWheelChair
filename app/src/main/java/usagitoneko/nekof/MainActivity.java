@@ -3,9 +3,6 @@ package usagitoneko.nekof;
 
 
 import android.app.Activity;
-//import android.support.v4.app.Fragment;
-//import android.app.Fragment;
-//import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -18,7 +15,6 @@ import android.nfc.tech.NdefFormatable;
 import android.nfc.tech.NfcV;
 import android.os.AsyncTask;
 import android.os.Bundle;
-//import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +23,6 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-//import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -54,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
     private Switch led_orange;
     private Button set_Led2;
     private boolean PermissionSetLed2;
+    private TextView log;
     public static final String MIME_TEXT_PLAIN = "text/plain";
     public static final String TAG = "NfcDemo";
     int buffer_receive[];
@@ -63,45 +59,20 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
     private boolean ledOrangeState;
     private boolean[] allBool;
 
+
     private ViewPager pager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.init_activity);
-       /* FragmentManager fmanager = getFragmentManager();
-        Fragment frag = fmanager.findFragmentById(R.id.activity_main);
-        if(frag == null){
-            //initialize frag
-            frag = new MainFragment();
-            fmanager.beginTransaction().add(R.id.activity_main, frag).commit();
-        }*/
-        /*Fragment frag = new MainFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.activity_main, frag);
-        ft.commit();*/
 
-        //initialize a list of three fragments
-        //List<Fragment> fragmentList = new ArrayList<Fragment>();
-        //Add number of new Fragments to the list
 
-       // fragmentList.add(new MainFragment());
-        //fragmentList.add(new MainFragment());
-        //fragmentList.add(FragmentLog.newInstance("1"));
+
         pageAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager());
-//        pageAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
-         pager = (ViewPager)findViewById(R.id.pager);
+        pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(pageAdapter);
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        /*FragmentManager fragmentManager = getFragmentManager();
-        Fragment frag = fragmentManager.findFragmentById(R.id.simpleFragment);
-
-        if(frag == null){
-            //initialize fragment
-            frag = new FragmentLog();
-            fragmentManager.beginTransaction().add(R.id.simpleFragment, frag).commit();
-
-        }*/
 
 
         //listen to button clicks
@@ -169,13 +140,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
     @Override
     public void onNewIntent(Intent intent) {
-        /**
-         * This method gets called, when a new Intent gets associated with the current activity instance.
-         * Instead of creating a new activity, onNewIntent will be called. For more information have a look
-         * at the documentation.
-         *
-         * In our case this method gets called, when the user attaches a Tag to the device.
-         */
+
         if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction()))
         {
             Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
@@ -187,11 +152,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                 try {
                     nfcv.connect();
                     if (nfcv.isConnected()) {
-                        /*nfc_result.append("Connected to the tag");
-                        nfc_result.append("\nTag DSF: " + Byte.toString(nfcv.getDsfId()));*/
                         byte[] buffer;
-
-                        //take value from switch which listen in onCreate function
                         if (allBool[4]) {
                             allBool[4] = false;
                             int resultAllLed = 0x10;//initial value predefined
@@ -209,26 +170,29 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                             }
                             buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) resultAllLed, (byte) 0x00, (byte) 0x72, (byte) 0x75}); //11 instead of 01 is because to avoid nfcv cant read 00 bug
                             // TODO: 23/2/2017   should do checking at buffer
-                            //Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
                         }
+
+                        MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.pager+":0");
+                        FragmentLog fragmentLog = (FragmentLog) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.pager + ":1");
+                        log = (TextView) fragmentLog.getView().findViewById(R.id.log);
+
                             String buffer_hex;
                             buffer = nfcv.transceive(new byte[]{0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
                             int ledStatus = toInteger(buffer);
-                            /*nfc_result.append("\nled status: "+ ledStatus +", "+ numberToHex(ledStatus));   //checking purpose
-                            //buffer_hex = toHex(new String(buffer));     //bugs:a line of 00000000 will appear // TODO: 23/2/2017 solve the bugs
-                            //long buffer_long = Long.parseLong(buffer_hex, 16);
-                            LedState ledState = new LedState(nfc_result, ledStatus);
+
+                        log.append("led status: "+ ledStatus +", "+ numberToHex(ledStatus));
+                            LedState ledState = new LedState( ((TextView)mainFragment.getView().findViewById(R.id.nfc_result)), ledStatus);
                             ledState.printLedState(ledState.LED2);
                             ledState.printLedState(ledState.BLUE);
                             ledState.printLedState(ledState.GREEN);
-                            ledState.printLedState(ledState.ORANGE);*/
-
+                            ledState.printLedState(ledState.ORANGE);
                             nfcv.close();
 
-                    }//else
-                        //nfc_result.append("Not connected to the tag");
+                    }else
+                        log.append("Not connected to the tag");
                 } catch (IOException e) {
-                    //nfc_result.append("Error");
+                    log.append("Error");
                 }
 
             }
@@ -357,22 +321,15 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
     }
 
 
-    public boolean isPermissionSetLed2(){
-        return PermissionSetLed2;
-    }
-
     public int toInteger(byte[] bytes){
         int result =0;
-        for(int i=0;i<4;i++){
+        for(int i=3;i>0;i--){
             result<<=8;
             result +=bytes[i];
         }
         return result;
     }
 
-    public String toHex(String arg) {
-        return String.format("%040x", new BigInteger(1, arg.getBytes(/*YOUR_CHARSET?*/)));
-    }
     public String numberToHex(int value) {
         return String.format("0x%x",value);
     }
@@ -417,8 +374,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
             }
             return null;
         }
-
-
     }
 
     private class NdefReaderTask extends AsyncTask<Tag, Void, String> {
@@ -486,10 +441,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
 
 }
-// TODO: 22/2/2017 interacting with nucleo device with a simple program
-// TODO: 22/2/2017 try out aar and verify*
-// TODO: 23/2/2017 unable to store 0 into int or hex
-// TODO: 23/2/2017 switching between NDEF data and non-NDEF data*
-// TODO: 23/2/2017 simplyfy checking of led state and others
+
 // TODO: 23/2/2017 anonymous class of the switch should be modified to make it shorter (probably dont use anonymous)
-// TODO: 27/2/2017 setText on others fragment
+// TODO: 3/3/2017 using another method to naming the allboo[] for cleaning purposes
