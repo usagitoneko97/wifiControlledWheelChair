@@ -14,14 +14,14 @@ public class FragmentLog extends Fragment{
 
     private TextView log;
 
-    public static FragmentLog newInstance (String message){
+    /*public static FragmentLog newInstance (String message){
         //create a fragment
         FragmentLog fragment = new FragmentLog();
         Bundle bundle = new Bundle(1);
         bundle.putString("testing 123", message);
         fragment.setArguments(bundle);
         return fragment;
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
