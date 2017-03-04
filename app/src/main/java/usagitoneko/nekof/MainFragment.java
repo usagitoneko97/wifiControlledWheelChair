@@ -35,7 +35,9 @@ public class MainFragment extends Fragment {
     private Switch led_orange;
     private Button set_Led2;
     private TextView nfc_result;
-
+    private TextView temperature_result_text;
+    private TextView temperatureColor;
+    private int temperature_result;
     private boolean led2State;
     private boolean ledBlueState;
     private boolean ledGreenState;
@@ -97,6 +99,9 @@ public class MainFragment extends Fragment {
         led_green = (Switch) view.findViewById(R.id.led_green);
         led_orange = (Switch) view.findViewById(R.id.led_orange) ;
         set_Led2 = (Button) view.findViewById(R.id.set_led2);
+        temperature_result_text = (TextView)view.findViewById(R.id.temperature);
+        temperatureColor = (TextView)view.findViewById(R.id.temperatureColor);
+        temperature_result_text.setText("0°C");  //initialize
         this.mView = view;
         set_Led2.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -168,19 +173,51 @@ public class MainFragment extends Fragment {
                     }
                 }
         );
-        /*Croller croller = (Croller) view.findViewById(R.id.croller);
+        Croller croller = (Croller) view.findViewById(R.id.croller);
+        croller = initCroller(croller);
+        croller.setMax(100);
+        croller.setOnProgressChangedListener(new Croller.onProgressChangedListener() {
+            @Override
+            public void onProgressChanged(int progress) {
+                temperature_result = progress;
+                temperature_result_text.setText(progress + "°C");
+                if(progress<50){
+                    //colder
+                    int temp = (int)Math.round(255.00-(((50-progress)/50.00)*255.00));
+                    String s = String.valueOf(temp);
+                    temperatureColor.setText(s);
+                    temperatureColor.setBackgroundColor(Color.rgb(255, 0,temp));
+                }
+                else if(progress>50){
+                    int temp = (int)Math.round(255.00-(((progress-50.00)/50.00)*255.00));
+                    String s = String.valueOf(temp);
+                    temperatureColor.setText(s);
+                    //hotter
+                    temperatureColor.setBackgroundColor(Color.rgb(temp, 0, 255));
+                }
+                else{
+                    //0.5
+                    temperatureColor.setBackgroundColor(Color.rgb(255, 0, 255));
+                }
+            }
+        });
+        someEventListener.someEvent(allBool);
+        return view;
+    }
+
+    private Croller initCroller(Croller croller){
         croller.setIndicatorWidth(10);
         croller.setBackCircleColor(Color.parseColor("#EDEDED"));
         croller.setMainCircleColor(Color.WHITE);
-        croller.setMax(50);
-        croller.setStartOffset(45);
         croller.setIsContinuous(false);
         croller.setLabelColor(Color.BLACK);
         croller.setProgressPrimaryColor(Color.parseColor("#0B3C49"));
         croller.setIndicatorColor(Color.parseColor("#0B3C49"));
-        croller.setProgressSecondaryColor(Color.parseColor("#EEEEEE"));*/
-        someEventListener.someEvent(allBool);
-        return view;
+        croller.setProgressSecondaryColor(Color.parseColor("#EEEEEE"));
+        croller.setIndicatorWidth(10);
+        croller.setLabel("Temperature of heater");
+        croller.setProgress(50);
+        return croller;
     }
 
 

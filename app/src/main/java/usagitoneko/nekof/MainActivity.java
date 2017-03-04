@@ -213,17 +213,19 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                         FragmentLog fragmentLog = (FragmentLog) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.pager + ":1");
                         log = (TextView) fragmentLog.getView().findViewById(R.id.log);
 
-                            String buffer_hex;
-                            buffer = nfcv.transceive(new byte[]{0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
-                            int ledStatus = toInteger(buffer);
+                        String buffer_hex;
+                        buffer = nfcv.transceive(new byte[]{0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
+                        int ledStatus = toInteger(buffer);
 
                         log.append("led status: "+ ledStatus +", "+ numberToHex(ledStatus));
-                            LedState ledState = new LedState( ((TextView)mainFragment.getView().findViewById(R.id.nfc_result)), ledStatus);
-                            ledState.printLedState(ledState.LED2);
-                            ledState.printLedState(ledState.BLUE);
-                            ledState.printLedState(ledState.GREEN);
-                            ledState.printLedState(ledState.ORANGE);
-                            nfcv.close();
+                        LedState ledState = new LedState( ((TextView)mainFragment.getView().findViewById(R.id.nfc_result)), ledStatus);
+                        ledState.printLedState(ledState.LED2);
+                        ledState.printLedState(ledState.BLUE);
+                        ledState.printLedState(ledState.GREEN);
+                        ledState.printLedState(ledState.ORANGE);
+                        // TODO: 4/3/2017   take the value of the temperature, calculate the ratio of red/green, setColor of text view in Mainfragment
+
+                        nfcv.close();
 
                     }else
                         log.append("Not connected to the tag");
