@@ -3,15 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="usagitoneko.nekof.MainActivity">
-
-
+    tools:context="usagitoneko.nekof.MainActivity"
+    android:fillViewport="true" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -101,8 +100,7 @@
             android:layout_alignParentEnd="true"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:soundEffectsEnabled="true"
-            android:clickable="false" />
+            android:clickable="true" />
 
         <TextView
             android:text="23"
@@ -125,6 +123,16 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="58dp"
             android:id="@+id/temperatureColor" />
+
+        <TextView
+            android:text="isganlkfbnkjahbfjka bjlsf baljs fkfsaijfa hklsdb flasbhd foabspfi abipsdf bpaisbd piabfp iabhfpias hbdfpiah sbfpiabs pfibaps fbhiaspdif abspfi lajfljas bdfljabh ljsbhfl ashf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:textSize="45sp"
+            android:layout_below="@+id/temperature">
+
+        </TextView>
 
 
     </RelativeLayout>

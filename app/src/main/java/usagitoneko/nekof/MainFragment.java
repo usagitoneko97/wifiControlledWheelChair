@@ -88,6 +88,7 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -199,6 +200,12 @@ public class MainFragment extends Fragment {
                     //0.5
                     temperatureColor.setBackgroundColor(Color.rgb(255, 0, 255));
                 }
+            }
+        });
+        croller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "im the best!", Toast.LENGTH_SHORT).show();
             }
         });
         someEventListener.someEvent(allBool);
