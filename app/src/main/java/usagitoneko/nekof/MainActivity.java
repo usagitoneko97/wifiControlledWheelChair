@@ -16,6 +16,7 @@ import android.nfc.tech.NfcV;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -77,7 +78,27 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
         pager.setAdapter(pageAdapter);
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(pager);
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        //tabLayout.setupWithViewPager(pager);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+            @Override
+            public void onTabSelected(TabLayout.Tab tab){
+                pager.setCurrentItem(tab.getPosition());
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab){
+                pager.setCurrentItem(tab.getPosition());
+            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab){
+                pager.setCurrentItem(tab.getPosition());
+            }
+        });
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
@@ -90,9 +111,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
         if (!mNfcAdapter.isEnabled()) {
             //inform user NFC is disabled
         } else {
+            handleIntent(getIntent());
             //display whatever title desired
         }
-        handleIntent(getIntent());
     }
 
     @Override
@@ -136,12 +157,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
          * It's important, that the activity is in the foreground (resumed). Otherwise
          * an IllegalStateException is thrown.
          */
-        setupForegroundDispatch(this, mNfcAdapter);
+        if(mNfcAdapter!=null)
+            setupForegroundDispatch(this, mNfcAdapter);
     }
 
     @Override
     protected void onPause() {
-        stopForegroundDispatch(this, mNfcAdapter);
+        if(mNfcAdapter!=null)
+            stopForegroundDispatch(this, mNfcAdapter);
         super.onPause();
     }
 
