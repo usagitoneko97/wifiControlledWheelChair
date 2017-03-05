@@ -24,7 +24,11 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.nightonke.jellytogglebutton.JellyToggleButton;
 import com.nightonke.jellytogglebutton.State;
+import com.robinhood.ticker.TickerUtils;
+import com.robinhood.ticker.TickerView;
 import com.spark.submitbutton.SubmitButton;
+
+import static usagitoneko.nekof.R.id.tickerView;
 
 
 /**
@@ -107,6 +111,10 @@ public class MainFragment extends Fragment {
         temperature_result_text = (TextView)view.findViewById(R.id.temperature);
         temperatureColor = (TextView)view.findViewById(R.id.temperatureColor);
         final SubmitButton sb = (SubmitButton)view.findViewById(R.id.submit2);
+        final TickerView tickerview = (TickerView)view.findViewById(tickerView);
+        tickerview.setCharacterList(TickerUtils.getDefaultNumberList());
+        //settext base on temperature read
+        tickerview.setText("55");
 
         temperature_result_text.setText("0°C");  //initialize
         this.mView = view;

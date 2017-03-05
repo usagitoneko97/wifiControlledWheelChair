@@ -115,7 +115,6 @@
             app:max="1000"
             app:progress_primary_color="#0B3C49"
             app:progress_secondary_color="#EEEEEE"
-            app:start_offset="45"
             android:layout_below="@+id/seperator"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -192,6 +191,16 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
+        <com.robinhood.ticker.TickerView
+            android:id="@+id/tickerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/seperator"
+            android:layout_toRightOf="@+id/temperatureColor"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25sp"
+            app:ticker_animationDuration="1500" />
 
         <Space
             android:layout_width="match_parent"

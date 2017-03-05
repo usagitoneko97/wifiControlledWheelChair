@@ -32,4 +32,5 @@ dependencies {
     compile 'me.spark:submitbutton:1.0.1'
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.0'
     compile 'com.nightonke:jellytogglebutton:1.0.2'
+    compile 'com.robinhood.ticker:ticker:1.1.1'
 }
