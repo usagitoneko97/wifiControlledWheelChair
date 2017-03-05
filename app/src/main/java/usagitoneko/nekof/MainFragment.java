@@ -22,6 +22,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 
+import com.nightonke.jellytogglebutton.JellyToggleButton;
+import com.nightonke.jellytogglebutton.State;
 import com.spark.submitbutton.SubmitButton;
 
 
@@ -31,10 +33,10 @@ import com.spark.submitbutton.SubmitButton;
 public class MainFragment extends Fragment {
 
     protected View mView;
-    private Switch led2;
-    private Switch led_blue;
-    private Switch led_green;
-    private Switch led_orange;
+    private JellyToggleButton led2;
+    private JellyToggleButton led_blue;
+    private JellyToggleButton led_green;
+    private JellyToggleButton led_orange;
     private Button set_Led2;
     private TextView nfc_result;
     private TextView temperature_result_text;
@@ -97,10 +99,10 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         nfc_result = (TextView) view.findViewById(R.id.nfc_result);
-        led2 = (Switch)view.findViewById(R.id.led2);
-        led_blue = (Switch) view.findViewById(R.id.led_blue);
-        led_green = (Switch) view.findViewById(R.id.led_green);
-        led_orange = (Switch) view.findViewById(R.id.led_orange) ;
+        led2 = (JellyToggleButton)view.findViewById(R.id.led2);
+        led_blue = (JellyToggleButton) view.findViewById(R.id.led_blue);
+        led_green = (JellyToggleButton) view.findViewById(R.id.led_green);
+        led_orange = (JellyToggleButton) view.findViewById(R.id.led_orange) ;
         set_Led2 = (Button) view.findViewById(R.id.set_led2);
         temperature_result_text = (TextView)view.findViewById(R.id.temperature);
         temperatureColor = (TextView)view.findViewById(R.id.temperatureColor);
@@ -119,66 +121,66 @@ public class MainFragment extends Fragment {
                 loading_dialog.show(getFragmentManager(), "123");*/
             }
         });
-        led2.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener(){
-                    public void onCheckedChanged(
-                            CompoundButton buttonView, boolean isChecked){
-                        if(isChecked){
-                            led2State=true;
-                            allBool[0] = led2State;
-                        }
-                        else{
-                            led2State=false;
-                            allBool[0] = led2State;
-                        }
-                    }
+        led2.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
+            @Override
+            public void onStateChange (float process, State state, JellyToggleButton jtb){
+                if(state.equals(State.LEFT)){
+                    Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
+                    led2State=true;
+                    allBool[0] = led2State;
                 }
-        );
-        led_green.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener(){
-                    public void onCheckedChanged(
-                            CompoundButton buttonView, boolean isChecked){
-                        if(isChecked){
-                            ledGreenState=true;
-                            allBool[1] = ledGreenState;
-                        }
-                        else{
-                            ledGreenState=false;
-                            allBool[1] = ledGreenState;
-                        }
-                    }
+                else if (state.equals(State.RIGHT)){
+                    Toast.makeText(getActivity(), "this is right!", Toast.LENGTH_SHORT).show();
+                    led2State=false;
+                    allBool[0] = led2State;
                 }
-        );
-        led_blue.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener(){
-                    public void onCheckedChanged(
-                            CompoundButton buttonView, boolean isChecked){
-                        if(isChecked){
-                            ledBlueState=true;
-                            allBool[2] = ledBlueState;
-                        }
-                        else{
-                            ledBlueState=false;
-                            allBool[2] = ledBlueState;
-                        }
-                    }
+            }
+        });
+        led_green.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
+            @Override
+            public void onStateChange (float process, State state, JellyToggleButton jtb){
+                if(state.equals(State.LEFT)){
+                    Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
+                    ledGreenState=true;
+                    allBool[1] = ledGreenState;
                 }
-        );
-        led_orange.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener(){
-                    public void onCheckedChanged(
-                            CompoundButton buttonView, boolean isChecked){
-                        if(isChecked){
-                            ledOrangeState=true;
-                            allBool[3] = ledOrangeState;
-                        }
-                        else{
-                            ledOrangeState=false;
-                            allBool[3] = ledOrangeState;
-                        }
-                    }
+                else if (state.equals(State.RIGHT)){
+                    Toast.makeText(getActivity(), "this is right!", Toast.LENGTH_SHORT).show();
+                    ledGreenState=false;
+                    allBool[1] = ledGreenState;
                 }
-        );
+            }
+        });
+        led_blue.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
+            @Override
+            public void onStateChange (float process, State state, JellyToggleButton jtb){
+                if(state.equals(State.LEFT)){
+                    Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
+                    ledBlueState=true;
+                    allBool[2] = ledBlueState;
+                }
+                else if (state.equals(State.RIGHT)){
+                    Toast.makeText(getActivity(), "this is right!", Toast.LENGTH_SHORT).show();
+                    ledBlueState=false;
+                    allBool[2] = ledBlueState;
+                }
+            }
+        });
+        led_orange.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
+            @Override
+            public void onStateChange (float process, State state, JellyToggleButton jtb){
+                if(state.equals(State.LEFT)){
+                    Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
+                    ledOrangeState=true;
+                    allBool[3] = ledOrangeState;
+                }
+                else if (state.equals(State.RIGHT)){
+                    Toast.makeText(getActivity(), "this is right!", Toast.LENGTH_SHORT).show();
+                    ledOrangeState=false;
+                    allBool[3] = ledOrangeState;
+                }
+            }
+        });
         Croller croller = (Croller) view.findViewById(R.id.croller);
         croller = initCroller(croller);
         croller.setMax(100);
