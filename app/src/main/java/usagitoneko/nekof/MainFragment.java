@@ -202,12 +202,7 @@ public class MainFragment extends Fragment {
                 }
             }
         });
-        croller.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "im the best!", Toast.LENGTH_SHORT).show();
-            }
-        });
+
         someEventListener.someEvent(allBool);
         return view;
     }
