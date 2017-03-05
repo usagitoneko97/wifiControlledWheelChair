@@ -1,123 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="usagitoneko.nekof.MainActivity">
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
 
+    <com.spark.submitbutton.SubmitButton
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="OK"
+        android:textSize="10sp"
+        android:textColor="@color/gray"
+        app:sub_btn_background="@color/white"
+        app:sub_btn_tick_color="@color/yellow"
+        app:sub_btn_duration="1000"
+        app:sub_btn_line_color="@color/colorPrimary"
+        app:sub_btn_ripple_color="@color/colorPrimary"
+        />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <com.spark.submitbutton.SubmitButton
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Submit"
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        app:sub_btn_background="@color/white"
+        app:sub_btn_duration="2000"
+        app:sub_btn_line_color="@color/colorPrimary"
+        app:sub_btn_ripple_color="@color/colorPrimary"
+        app:sub_btn_tick_color="@color/white" />
 
-            <android.support.v4.view.ViewPager
-                android:id = "@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    <com.spark.submitbutton.SubmitButton
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:sub_btn_tick_color="@color/white"
+        android:text="Submit"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        app:sub_btn_duration="3000" />
 
-            </android.support.v4.view.ViewPager>
-
-            <TextView
-                android:text="Please place your phone near the tag to get current status."
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="62dp"
-                android:id="@+id/nfc_result"
-                android:textSize="18sp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
-
-            <Switch
-                android:text="LED2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/led2"
-                android:checked="false"
-                android:layout_marginTop="71dp"
-                android:layout_below="@+id/nfc_result"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Switch
-                android:text="Green Led"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/led2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/led_green" />
-
-            <Switch
-                android:text="Blue Led"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/led_green"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/led_blue" />
-
-            <Switch
-                android:text="Orange Led"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/led_blue"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/led_orange" />
-
-            <Button
-                android:text="SET"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/set_led2"
-                android:elevation="0dp"
-                android:layout_below="@+id/led_orange"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="40dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/textView"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                android:text="90°C"
-                android:fontFamily="monospace"
-                android:textSize="30sp"
-                android:textStyle="normal|bold"
-                android:textAlignment="textEnd"
-                android:theme="@style/AppTheme"
-                android:typeface="serif" />
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/seekBar"
-                style="@style/Widget.AppCompat.SeekBar" />
-
-            <usagitoneko.nekof.Croller
-                android:id="@+id/croller"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_centerInParent="true"
-                app:back_circle_color="#EDEDED"
-                app:indicator_color="#0B3C49"
-                app:indicator_width="10"
-                app:is_continuous="true"
-                app:label_color="#000000"
-                app:main_circle_color="#FFFFFF"
-                app:max="1000"
-                app:progress_primary_color="#0B3C49"
-                app:progress_secondary_color="#EEEEEE"
-                app:start_offset="45" />
-        </LinearLayout>
-    </ScrollView>
-
-
+    <com.spark.submitbutton.SubmitButton
+        android:id="@+id/btn3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Submit"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:sub_btn_duration="4000" />
+</LinearLayout>

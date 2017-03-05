@@ -22,6 +22,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 
+import com.spark.submitbutton.SubmitButton;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -102,12 +104,15 @@ public class MainFragment extends Fragment {
         set_Led2 = (Button) view.findViewById(R.id.set_led2);
         temperature_result_text = (TextView)view.findViewById(R.id.temperature);
         temperatureColor = (TextView)view.findViewById(R.id.temperatureColor);
+        final SubmitButton sb = (SubmitButton)view.findViewById(R.id.submit2);
+
         temperature_result_text.setText("0°C");  //initialize
         this.mView = view;
         set_Led2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                         PermissionSetLed2 = true;
+                        sb.clearAnimation();
                         allBool[4] = PermissionSetLed2;
                         Toast.makeText(getActivity(), "please place your phone close to the tag.", Toast.LENGTH_SHORT).show();
                 /*Loading_dialog loading_dialog = new Loading_dialog();

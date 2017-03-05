@@ -341,6 +341,15 @@ public class Croller extends View {
         return super.onTouchEvent(e);
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (getParent() != null && event.getAction() == MotionEvent.ACTION_DOWN) {
+            getParent().requestDisallowInterceptTouchEvent(true);
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+
     public int getProgress() {
         return (int) (deg - 2);
     }
