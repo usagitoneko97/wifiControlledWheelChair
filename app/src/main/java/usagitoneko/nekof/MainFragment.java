@@ -114,7 +114,7 @@ public class MainFragment extends Fragment {
         final TickerView tickerview = (TickerView)view.findViewById(tickerView);
         tickerview.setCharacterList(TickerUtils.getDefaultNumberList());
         //settext base on temperature read
-        tickerview.setText("55");
+        tickerview.setText("55°C");
 
         temperature_result_text.setText("0°C");  //initialize
         this.mView = view;
@@ -197,7 +197,7 @@ public class MainFragment extends Fragment {
             public void onProgressChanged(int progress) {
                 temperature_result = progress;
                 temperature_result_text.setText(progress + "°C");
-                if(progress<50){
+                /*if(progress<50){
                     //colder
                     int temp = (int)Math.round(255.00-(((50-progress)/50.00)*255.00));
                     String s = String.valueOf(temp);
@@ -214,7 +214,22 @@ public class MainFragment extends Fragment {
                 else{
                     //0.5
                     temperatureColor.setBackgroundColor(Color.rgb(255, 0, 255));
+                }*/
+               if (progress<20){
+                   tickerview.setTextColor(Color.rgb(00,0xed,0xff));    //light blue
                 }
+                else if(progress<40&&progress>=20){
+                   tickerview.setTextColor(Color.rgb(00, 0x83, 0xff));
+               }
+               else if(progress<60&&progress>=40){
+                   tickerview.setTextColor(Color.rgb(0x66, 00, 0xff));
+               }
+               else if(progress<80&&progress>=60){
+                   tickerview.setTextColor(Color.rgb(0xff, 00, 0xe5));
+               }
+               else{
+                   tickerview.setTextColor(Color.rgb(0xff, 00, 0x4c));
+               }
             }
         });
 
@@ -233,7 +248,6 @@ public class MainFragment extends Fragment {
         croller.setProgressSecondaryColor(Color.parseColor("#EEEEEE"));
         croller.setIndicatorWidth(10);
         croller.setLabel("Temperature of heater");
-        croller.setProgress(50);
         return croller;
     }
 
