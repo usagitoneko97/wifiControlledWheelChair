@@ -226,11 +226,19 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_below="@+id/temperature"
+            android:id="@+id/divider2"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
 
         <info.hoang8f.widget.FButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/croller"
+            android:layout_below="@+id/divider2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:id="@+id/set_led2"
