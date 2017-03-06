@@ -109,7 +109,7 @@ public class MainFragment extends Fragment {
         led_orange = (JellyToggleButton) view.findViewById(R.id.led_orange) ;
         set_Led2 = (Button) view.findViewById(R.id.set_led2);
         temperature_result_text = (TextView)view.findViewById(R.id.temperature);
-        temperatureColor = (TextView)view.findViewById(R.id.temperatureColor);
+        //temperatureColor = (TextView)view.findViewById(R.id.temperatureColor);
         final SubmitButton sb = (SubmitButton)view.findViewById(R.id.submit2);
         final TickerView tickerview = (TickerView)view.findViewById(tickerView);
         tickerview.setCharacterList(TickerUtils.getDefaultNumberList());
@@ -122,7 +122,6 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v){
                         PermissionSetLed2 = true;
-                        sb.clearAnimation();
                         allBool[4] = PermissionSetLed2;
                         Toast.makeText(getActivity(), "please place your phone close to the tag.", Toast.LENGTH_SHORT).show();
                 /*Loading_dialog loading_dialog = new Loading_dialog();
@@ -134,6 +133,7 @@ public class MainFragment extends Fragment {
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.LEFT)){
                     Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
+                    tickerview.setText("65°C");
                     led2State=true;
                     allBool[0] = led2State;
                 }
@@ -149,6 +149,7 @@ public class MainFragment extends Fragment {
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.LEFT)){
                     Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
+                    tickerview.setText("89°C");
                     ledGreenState=true;
                     allBool[1] = ledGreenState;
                 }
@@ -164,6 +165,7 @@ public class MainFragment extends Fragment {
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.LEFT)){
                     Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
+                    tickerview.setText("85°C");
                     ledBlueState=true;
                     allBool[2] = ledBlueState;
                 }
@@ -179,6 +181,7 @@ public class MainFragment extends Fragment {
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.LEFT)){
                     Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
+                    tickerview.setText("25°C");
                     ledOrangeState=true;
                     allBool[3] = ledOrangeState;
                 }
@@ -197,24 +200,7 @@ public class MainFragment extends Fragment {
             public void onProgressChanged(int progress) {
                 temperature_result = progress;
                 temperature_result_text.setText(progress + "°C");
-                /*if(progress<50){
-                    //colder
-                    int temp = (int)Math.round(255.00-(((50-progress)/50.00)*255.00));
-                    String s = String.valueOf(temp);
-                    temperatureColor.setText(s);
-                    temperatureColor.setBackgroundColor(Color.rgb(255, 0,temp));
-                }
-                else if(progress>50){
-                    int temp = (int)Math.round(255.00-(((progress-50.00)/50.00)*255.00));
-                    String s = String.valueOf(temp);
-                    temperatureColor.setText(s);
-                    //hotter
-                    temperatureColor.setBackgroundColor(Color.rgb(temp, 0, 255));
-                }
-                else{
-                    //0.5
-                    temperatureColor.setBackgroundColor(Color.rgb(255, 0, 255));
-                }*/
+
                if (progress<20){
                    tickerview.setTextColor(Color.rgb(00,0xed,0xff));    //light blue
                 }
@@ -253,3 +239,24 @@ public class MainFragment extends Fragment {
 
 
 }
+//**
+//**UNSUSED CODE**
+//---------------------
+/*if(progress<50){
+                    //colder
+                    int temp = (int)Math.round(255.00-(((50-progress)/50.00)*255.00));
+                    String s = String.valueOf(temp);
+                    temperatureColor.setText(s);
+                    temperatureColor.setBackgroundColor(Color.rgb(255, 0,temp));
+                }
+                else if(progress>50){
+                    int temp = (int)Math.round(255.00-(((progress-50.00)/50.00)*255.00));
+                    String s = String.valueOf(temp);
+                    temperatureColor.setText(s);
+                    //hotter
+                    temperatureColor.setBackgroundColor(Color.rgb(temp, 0, 255));
+                }
+                else{
+                    //0.5
+                    temperatureColor.setBackgroundColor(Color.rgb(255, 0, 255));
+                }*/

@@ -39,11 +39,8 @@
         <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:id="@+id/led2"
-            android:layout_marginTop="71dp"
-            android:layout_below="@+id/nfc_result"
+            android:layout_marginTop="62dp"
             app:jtbDuration="500"
             app:jtbJelly="lazy_tremble_head_slim_jim"
             app:jtbLeftThumbColor="@color/holo_red_light"
@@ -51,8 +48,9 @@
             app:jtbLeftBackgroundColor="@color/gray"
             app:jtbRightBackgroundColor="@color/gray"
             app:jtbLeftText="ON"
-            android:layout_toRightOf="@+id/submit2"
-            android:layout_toEndOf="@+id/submit2" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_below="@+id/nfc_result" />
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="wrap_content"
@@ -64,9 +62,12 @@
             app:jtbRightThumbColor="@color/holo_green_light"
             app:jtbLeftBackgroundColor="@color/gray"
             app:jtbRightBackgroundColor="@color/gray"
-            android:layout_below="@+id/led2"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignBaseline="@+id/led2"
+            android:layout_alignBottom="@+id/led2"
+            android:layout_toRightOf="@+id/led2"
+            android:layout_toEndOf="@+id/led2"
+            android:layout_marginLeft="31dp"
+            android:layout_marginStart="40dp" />
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="wrap_content"
@@ -78,9 +79,12 @@
             app:jtbRightThumbColor="@color/holo_green_light"
             app:jtbLeftBackgroundColor="@color/gray"
             app:jtbRightBackgroundColor="@color/gray"
-            android:layout_below="@+id/led_green"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_alignBaseline="@+id/led_green"
+            android:layout_alignBottom="@+id/led_green"
+            android:layout_toRightOf="@+id/led_green"
+            android:layout_toEndOf="@+id/led_green" />
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="wrap_content"
@@ -92,7 +96,10 @@
             app:jtbRightThumbColor="@color/holo_green_light"
             app:jtbLeftBackgroundColor="@color/gray"
             app:jtbRightBackgroundColor="@color/gray"
-            android:layout_below="@+id/led_blue"
+            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_alignBaseline="@+id/led_blue"
+            android:layout_alignBottom="@+id/led_blue"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
@@ -130,8 +137,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/croller"
-            android:layout_alignLeft="@+id/temperatureColor"
-            android:layout_alignStart="@+id/temperatureColor"
             android:textSize="36sp" />
 
         <com.dd.processbutton.iml.ActionProcessButton
@@ -185,17 +190,55 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/seperator"
-            android:layout_toRightOf="@+id/temperatureColor"
             android:gravity="center"
             android:textColor="@color/colorPrimary"
             android:textSize="25sp"
-            app:ticker_animationDuration="1500" />
+            app:ticker_animationDuration="1500"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_height="80dp"
             android:layout_below="@+id/submit2"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="Led 2"
+            android:layout_above="@+id/led_green"
+            android:layout_alignLeft="@+id/led2"
+            android:layout_alignStart="@+id/led2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/led_green"
+            android:layout_alignStart="@+id/led_green"
+            android:layout_alignTop="@+id/textView"
+            android:text="Green Led"
+            android:id="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView3"
+            android:layout_alignLeft="@+id/led_blue"
+            android:layout_alignStart="@+id/led_blue"
+            android:text="Blue Led" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView4"
+            android:layout_alignLeft="@+id/led_orange"
+            android:layout_alignStart="@+id/led_orange"
+            android:text="Orange Led" />
 
 
     </RelativeLayout>

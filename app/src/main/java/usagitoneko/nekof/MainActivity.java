@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -73,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("NFC Application");
+        toolbar.setTitleTextColor(Color.WHITE);
         pageAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager());
         pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(pageAdapter);
