@@ -31,16 +31,22 @@
             android:layout_height="wrap_content"
             android:id="@+id/nfc_result"
             android:textSize="18sp"
-            android:layout_below="@+id/pager"
-            android:layout_toRightOf="@+id/tickerView"
-            android:layout_toEndOf="@+id/tickerView" />
+            android:layout_below="@+id/pager" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:id="@+id/LayoutButton"
+            android:layout_marginTop="25dp"
+            android:layout_below="@+id/nfc_result">
 
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/led2"
-            android:layout_marginTop="62dp"
+            android:layout_weight="1"
             app:jtbDuration="500"
             app:jtbJelly="lazy_tremble_head_slim_jim"
             app:jtbLeftThumbColor="@color/holo_red_light"
@@ -51,14 +57,30 @@
             app:jtbRightText="ON"
             app:jtbRightTextSize="15dp"
             app:jtbLeftTextColor="@color/white"
-            app:jtbRightTextColor="@color/white"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_below="@+id/nfc_result" />
+            app:jtbRightTextColor="@color/white" />
 
-        <com.nightonke.jellytogglebutton.JellyToggleButton
-            android:layout_width="wrap_content"
+
+            <com.nightonke.jellytogglebutton.JellyToggleButton
+                android:id="@+id/led_blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/led2"
+                app:jtbDuration="500"
+                app:jtbJelly="lazy_tremble_head_slim_jim"
+                app:jtbLeftBackgroundColor="@color/gray"
+                app:jtbLeftText="OFF"
+                app:jtbLeftTextColor="@color/white"
+                app:jtbLeftThumbColor="@color/holo_red_light"
+                app:jtbRightBackgroundColor="@color/gray"
+                app:jtbRightText="ON"
+                app:jtbRightTextColor="@color/white"
+                app:jtbRightTextSize="15dp"
+                app:jtbRightThumbColor="@color/holo_green_light" />
+
+            <com.nightonke.jellytogglebutton.JellyToggleButton
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/led_blue"
             android:id="@+id/led_green"
             app:jtbDuration="500"
             app:jtbJelly="lazy_tremble_head_slim_jim"
@@ -70,41 +92,14 @@
             app:jtbLeftText="OFF"
             app:jtbRightText="ON"
             app:jtbLeftTextColor="@color/white"
-            app:jtbRightTextColor="@color/white"
-            android:layout_marginLeft="29dp"
-            android:layout_marginStart="29dp"
-            android:layout_alignBaseline="@+id/led2"
-            android:layout_alignBottom="@+id/led2"
-            android:layout_toRightOf="@+id/led2"
-            android:layout_toEndOf="@+id/led2" />
+            app:jtbRightTextColor="@color/white" />
 
-        <com.nightonke.jellytogglebutton.JellyToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/led_blue"
-            app:jtbDuration="500"
-            app:jtbJelly="lazy_tremble_head_slim_jim"
-            app:jtbLeftThumbColor="@color/holo_red_light"
-            app:jtbRightThumbColor="@color/holo_green_light"
-            app:jtbLeftBackgroundColor="@color/gray"
-            app:jtbRightBackgroundColor="@color/gray"
-            app:jtbRightTextSize="15dp"
-            app:jtbLeftText="OFF"
-            app:jtbRightText="ON"
-            app:jtbLeftTextColor="@color/white"
-            app:jtbRightTextColor="@color/white"
-            android:layout_alignBaseline="@+id/led_green"
-            android:layout_alignBottom="@+id/led_green"
-            android:layout_toLeftOf="@+id/textView5"
-            android:layout_toStartOf="@+id/textView5"
-            android:layout_marginLeft="29dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginEnd="30dp" />
 
-        <com.nightonke.jellytogglebutton.JellyToggleButton
-            android:layout_width="wrap_content"
+            <com.nightonke.jellytogglebutton.JellyToggleButton
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/led_orange"
+            android:layout_below="@+id/led_green"
             app:jtbDuration="500"
             app:jtbJelly="lazy_tremble_head_slim_jim"
             app:jtbLeftThumbColor="@color/holo_red_light"
@@ -115,21 +110,15 @@
             app:jtbLeftText="OFF"
             app:jtbRightText="ON"
             app:jtbLeftTextColor="@color/white"
-            app:jtbRightTextColor="@color/white"
-            android:layout_marginRight="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_alignBaseline="@+id/led_blue"
-            android:layout_alignBottom="@+id/led_blue"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            app:jtbRightTextColor="@color/white" />
 
-        <View
-            android:id="@+id/seperator"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/led_orange"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/darker_gray"/>
+
+
+        </RelativeLayout>
+
+
+
+
 
         <usagitoneko.nekof.Croller
             android:id="@+id/croller"
@@ -142,12 +131,25 @@
             app:max="1000"
             app:progress_primary_color="#0B3C49"
             app:progress_secondary_color="#EEEEEE"
-            android:layout_below="@+id/seperator"
+            android:layout_below="@+id/LayoutButton"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:clickable="true" />
+
+        <TextView
+            android:text="23"
+            android:gravity="center"
+            android:id="@+id/temperature"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_below="@+id/LayoutButton"
+            android:layout_alignTop="@+id/seperator"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
 
         <TextView
@@ -193,23 +195,13 @@
             app:sub_btn_ripple_color="@color/colorPrimary"
             app:sub_btn_tick_color="@color/white"  />
 
-        <TextView
-            android:text="23"
-            android:gravity="center"
-            android:id="@+id/temperature"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_alignTop="@+id/seperator"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+
 
         <com.robinhood.ticker.TickerView
             android:id="@+id/tickerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/seperator"
+            android:layout_below="@+id/LayoutButton"
             android:gravity="center"
             android:textColor="@color/colorPrimary"
             android:textSize="25sp"
@@ -224,41 +216,46 @@
             android:layout_below="@+id/submit2"/>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:text="Led 2"
-            android:layout_above="@+id/led_green"
-            android:layout_alignLeft="@+id/led2"
-            android:layout_alignStart="@+id/led2" />
+            android:layout_alignTop="@+id/LayoutButton"
+            android:layout_marginLeft="28dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="9dp"
+            android:layout_toEndOf="@+id/LayoutButton"
+            android:layout_toRightOf="@+id/LayoutButton"
+            android:text="Led2" />
 
         <TextView
+            android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/led_green"
-            android:layout_alignStart="@+id/led_green"
-            android:layout_alignTop="@+id/textView"
-            android:text="Green Led"
-            android:id="@+id/textView3" />
+            android:layout_alignLeft="@+id/textView7"
+            android:layout_alignStart="@+id/textView7"
+            android:layout_below="@+id/textView7"
+            android:layout_marginTop="14dp"
+            android:text="Green Led" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textView3"
-            android:layout_alignLeft="@+id/led_blue"
-            android:layout_alignStart="@+id/led_blue"
-            android:text="Blue Led" />
+            android:layout_marginTop="15dp"
+            android:text="Blue Led"
+            android:layout_below="@+id/textView8"
+            android:layout_alignLeft="@+id/textView8"
+            android:layout_alignStart="@+id/textView8" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textView4"
-            android:layout_alignLeft="@+id/led_orange"
-            android:layout_alignStart="@+id/led_orange"
-            android:text="Orange Led" />
+            android:text="Orange Led"
+            android:layout_marginBottom="7dp"
+            android:layout_above="@+id/croller"
+            android:layout_alignLeft="@+id/textView9"
+            android:layout_alignStart="@+id/textView9" />
 
 
     </RelativeLayout>
