@@ -33,4 +33,6 @@ dependencies {
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.0'
     compile 'com.nightonke:jellytogglebutton:1.0.2'
     compile 'com.robinhood.ticker:ticker:1.1.1'
+    compile 'com.afollestad.material-dialogs:core:0.9.3.0'
+    compile 'com.tuyenmonkey:mkloader:1.0.0'
 }

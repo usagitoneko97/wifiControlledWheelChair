@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 
 public class Loading_dialog extends android.support.v4.app.DialogFragment {
     boolean returnDialog;
@@ -17,25 +19,25 @@ public class Loading_dialog extends android.support.v4.app.DialogFragment {
         void onButtonClicked(Loading_dialog dialogFragment);
     }
 
-    /*@Override
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 // Use the Builder class because this dialog has a simple UI
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("please place your phone close to the tag.");
-        return builder.create();
-        *//*while(true){//while new intent didnt pass in
+        return new MaterialDialog.Builder(getContext()).customView(R.layout.loading_dialog, true).title("Place your phone close to the tag").show();
+        /*while(true){//while new intent didnt pass in
 
-        }*//*
+        }*/
         //MainActivity mainActivity = new MainActivity();
         //return builder.create();
 
-    }*/
+    }
 
-    @Nullable
+   /* @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.loading_dialog, null);
-    }
+    }*/
 
     public void setReturnDialog (boolean returnDialog){
         this.returnDialog = returnDialog;
