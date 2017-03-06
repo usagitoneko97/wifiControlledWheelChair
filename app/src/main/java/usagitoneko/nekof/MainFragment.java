@@ -139,6 +139,7 @@ public class MainFragment extends Fragment {
                 else if (state.equals(State.RIGHT)){
                     led2State=false;
                     allBool[0] = led2State;
+
                 }
             }
         });

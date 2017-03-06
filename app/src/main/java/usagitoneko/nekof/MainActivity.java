@@ -494,4 +494,5 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 // TODO: 23/2/2017 anonymous class of the switch should be modified to make it shorter (probably dont use anonymous)
 // TODO: 3/3/2017 using another method to naming the allboo[] for cleaning purposes
 // TODO: 6/3/2017 add cancel button for loading fragment (cancel writting to tag
-// TODO: 6/3/2017 Add  
+// TODO: 6/3/2017 Add auto set thumb for the toggle button when scan to a tag
+// TODO: 6/3/2017 label for displaying read temperature

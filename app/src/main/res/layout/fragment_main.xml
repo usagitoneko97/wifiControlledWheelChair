@@ -60,15 +60,15 @@
             android:layout_weight="1"
             app:jtbDuration="500"
             app:jtbJelly="lazy_tremble_head_slim_jim"
-            app:jtbLeftThumbColor="@color/holo_red_light"
+            app:jtbLeftThumbColor="@color/yellow"
             app:jtbRightThumbColor="@color/holo_green_light"
             app:jtbLeftBackgroundColor="@color/gray"
             app:jtbRightBackgroundColor="@color/gray"
             app:jtbLeftText="OFF"
             app:jtbRightText="ON"
             app:jtbRightTextSize="15dp"
-            app:jtbLeftTextColor="@color/white"
-            app:jtbRightTextColor="@color/white" />
+            app:jtbLeftTextColor="@color/gray"
+            app:jtbRightTextColor="@color/gray"/>
 
 
             <com.nightonke.jellytogglebutton.JellyToggleButton
@@ -80,11 +80,11 @@
                 app:jtbJelly="lazy_tremble_head_slim_jim"
                 app:jtbLeftBackgroundColor="@color/gray"
                 app:jtbLeftText="OFF"
-                app:jtbLeftTextColor="@color/white"
-                app:jtbLeftThumbColor="@color/holo_red_light"
+                app:jtbLeftTextColor="@color/gray"
+                app:jtbLeftThumbColor="@color/fbutton_color_emerald"
                 app:jtbRightBackgroundColor="@color/gray"
                 app:jtbRightText="ON"
-                app:jtbRightTextColor="@color/white"
+                app:jtbRightTextColor="@color/gray"
                 app:jtbRightTextSize="15dp"
                 app:jtbRightThumbColor="@color/holo_green_light" />
 
@@ -95,15 +95,15 @@
             android:id="@+id/led_green"
             app:jtbDuration="500"
             app:jtbJelly="lazy_tremble_head_slim_jim"
-            app:jtbLeftThumbColor="@color/holo_red_light"
+            app:jtbLeftThumbColor="@color/holo_blue_bright"
             app:jtbRightThumbColor="@color/holo_green_light"
             app:jtbLeftBackgroundColor="@color/gray"
             app:jtbRightBackgroundColor="@color/gray"
             app:jtbRightTextSize="15dp"
             app:jtbLeftText="OFF"
             app:jtbRightText="ON"
-            app:jtbLeftTextColor="@color/white"
-            app:jtbRightTextColor="@color/white" />
+            app:jtbLeftTextColor="@color/gray"
+            app:jtbRightTextColor="@color/gray" />
 
 
             <com.nightonke.jellytogglebutton.JellyToggleButton
@@ -113,15 +113,15 @@
             android:layout_below="@+id/led_green"
             app:jtbDuration="500"
             app:jtbJelly="lazy_tremble_head_slim_jim"
-            app:jtbLeftThumbColor="@color/holo_red_light"
+            app:jtbLeftThumbColor="@color/fbutton_color_orange"
             app:jtbRightThumbColor="@color/holo_green_light"
             app:jtbLeftBackgroundColor="@color/gray"
             app:jtbRightBackgroundColor="@color/gray"
             app:jtbRightTextSize="15dp"
             app:jtbLeftText="OFF"
             app:jtbRightText="ON"
-            app:jtbLeftTextColor="@color/white"
-            app:jtbRightTextColor="@color/white" />
+            app:jtbLeftTextColor="@color/gray"
+            app:jtbRightTextColor="@color/gray" />
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
