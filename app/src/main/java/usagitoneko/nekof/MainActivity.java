@@ -17,6 +17,7 @@ import android.nfc.tech.NfcV;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -179,6 +180,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
     }
     @Override
     public void onNewIntent(Intent intent) {
+        //stop the fragment dialog
+        Fragment dialog = getSupportFragmentManager().findFragmentByTag("Loading_dialog");
+        if(dialog!=null){
+            DialogFragment df = (DialogFragment)dialog;
+            Toast.makeText(this, "not NULL", Toast.LENGTH_SHORT).show();
+            df.dismiss();
+        }
 
         if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction()))
         {

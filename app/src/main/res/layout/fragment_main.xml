@@ -29,11 +29,11 @@
             android:text="Please place your phone near the tag to get current status."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="62dp"
             android:id="@+id/nfc_result"
             android:textSize="18sp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_below="@+id/pager"
+            android:layout_toRightOf="@+id/tickerView"
+            android:layout_toEndOf="@+id/tickerView" />
 
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
@@ -47,7 +47,11 @@
             app:jtbRightThumbColor="@color/holo_green_light"
             app:jtbLeftBackgroundColor="@color/gray"
             app:jtbRightBackgroundColor="@color/gray"
-            app:jtbLeftText="ON"
+            app:jtbLeftText="OFF"
+            app:jtbRightText="ON"
+            app:jtbRightTextSize="15dp"
+            app:jtbLeftTextColor="@color/white"
+            app:jtbRightTextColor="@color/white"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_below="@+id/nfc_result" />
@@ -62,12 +66,17 @@
             app:jtbRightThumbColor="@color/holo_green_light"
             app:jtbLeftBackgroundColor="@color/gray"
             app:jtbRightBackgroundColor="@color/gray"
+            app:jtbRightTextSize="15dp"
+            app:jtbLeftText="OFF"
+            app:jtbRightText="ON"
+            app:jtbLeftTextColor="@color/white"
+            app:jtbRightTextColor="@color/white"
+            android:layout_marginLeft="29dp"
+            android:layout_marginStart="29dp"
             android:layout_alignBaseline="@+id/led2"
             android:layout_alignBottom="@+id/led2"
             android:layout_toRightOf="@+id/led2"
-            android:layout_toEndOf="@+id/led2"
-            android:layout_marginLeft="31dp"
-            android:layout_marginStart="40dp" />
+            android:layout_toEndOf="@+id/led2" />
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="wrap_content"
@@ -79,12 +88,18 @@
             app:jtbRightThumbColor="@color/holo_green_light"
             app:jtbLeftBackgroundColor="@color/gray"
             app:jtbRightBackgroundColor="@color/gray"
-            android:layout_marginLeft="50dp"
-            android:layout_marginStart="50dp"
+            app:jtbRightTextSize="15dp"
+            app:jtbLeftText="OFF"
+            app:jtbRightText="ON"
+            app:jtbLeftTextColor="@color/white"
+            app:jtbRightTextColor="@color/white"
             android:layout_alignBaseline="@+id/led_green"
             android:layout_alignBottom="@+id/led_green"
-            android:layout_toRightOf="@+id/led_green"
-            android:layout_toEndOf="@+id/led_green" />
+            android:layout_toLeftOf="@+id/textView5"
+            android:layout_toStartOf="@+id/textView5"
+            android:layout_marginLeft="29dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="30dp" />
 
         <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="wrap_content"
@@ -96,6 +111,11 @@
             app:jtbRightThumbColor="@color/holo_green_light"
             app:jtbLeftBackgroundColor="@color/gray"
             app:jtbRightBackgroundColor="@color/gray"
+            app:jtbRightTextSize="15dp"
+            app:jtbLeftText="OFF"
+            app:jtbRightText="ON"
+            app:jtbLeftTextColor="@color/white"
+            app:jtbRightTextColor="@color/white"
             android:layout_marginRight="25dp"
             android:layout_marginEnd="25dp"
             android:layout_alignBaseline="@+id/led_blue"

@@ -124,8 +124,8 @@ public class MainFragment extends Fragment {
                         PermissionSetLed2 = true;
                         allBool[4] = PermissionSetLed2;
                         Toast.makeText(getActivity(), "please place your phone close to the tag.", Toast.LENGTH_SHORT).show();
-                /*Loading_dialog loading_dialog = new Loading_dialog();
-                loading_dialog.show(getFragmentManager(), "123");*/
+                Loading_dialog loading_dialog = new Loading_dialog();
+                loading_dialog.show(getFragmentManager(), "123");
             }
         });
         led2.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
