@@ -132,13 +132,11 @@ public class MainFragment extends Fragment {
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.LEFT)){
-                    Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
                     tickerview.setText("65°C");
                     led2State=true;
                     allBool[0] = led2State;
                 }
                 else if (state.equals(State.RIGHT)){
-                    Toast.makeText(getActivity(), "this is right!", Toast.LENGTH_SHORT).show();
                     led2State=false;
                     allBool[0] = led2State;
                 }
@@ -148,13 +146,11 @@ public class MainFragment extends Fragment {
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.LEFT)){
-                    Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
                     tickerview.setText("89°C");
                     ledGreenState=true;
                     allBool[1] = ledGreenState;
                 }
                 else if (state.equals(State.RIGHT)){
-                    Toast.makeText(getActivity(), "this is right!", Toast.LENGTH_SHORT).show();
                     ledGreenState=false;
                     allBool[1] = ledGreenState;
                 }
@@ -164,13 +160,11 @@ public class MainFragment extends Fragment {
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.LEFT)){
-                    Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
                     tickerview.setText("85°C");
                     ledBlueState=true;
                     allBool[2] = ledBlueState;
                 }
                 else if (state.equals(State.RIGHT)){
-                    Toast.makeText(getActivity(), "this is right!", Toast.LENGTH_SHORT).show();
                     ledBlueState=false;
                     allBool[2] = ledBlueState;
                 }
@@ -180,13 +174,11 @@ public class MainFragment extends Fragment {
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.LEFT)){
-                    Toast.makeText(getActivity(), "this is left!", Toast.LENGTH_SHORT).show();
                     tickerview.setText("25°C");
                     ledOrangeState=true;
                     allBool[3] = ledOrangeState;
                 }
                 else if (state.equals(State.RIGHT)){
-                    Toast.makeText(getActivity(), "this is right!", Toast.LENGTH_SHORT).show();
                     ledOrangeState=false;
                     allBool[3] = ledOrangeState;
                 }

@@ -35,4 +35,5 @@ dependencies {
     compile 'com.robinhood.ticker:ticker:1.1.1'
     compile 'com.afollestad.material-dialogs:core:0.9.3.0'
     compile 'com.tuyenmonkey:mkloader:1.0.0'
+    compile 'info.hoang8f:fbutton:1.0.5'
 }
