@@ -208,11 +208,10 @@
             app:progress_primary_color="#0B3C49"
             app:progress_secondary_color="#EEEEEE"
             android:layout_below="@+id/headerTempControl"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:clickable="true" />
+            android:clickable="true"
+            android:layout_centerHorizontal="true"/>
 
         <TextView
             android:text="23"
@@ -223,8 +222,7 @@
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_below="@+id/headerTempControl"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignLeft="@+id/croller" />
 
         <View
             android:layout_width="match_parent"

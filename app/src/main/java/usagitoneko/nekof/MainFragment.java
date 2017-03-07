@@ -116,6 +116,7 @@ public class MainFragment extends Fragment {
         //settext base on temperature read
         tickerview.setText("55°C");
 
+
         temperature_result_text.setText("0°C");  //initialize
         this.mView = view;
         set_Led2.setOnClickListener(new View.OnClickListener(){

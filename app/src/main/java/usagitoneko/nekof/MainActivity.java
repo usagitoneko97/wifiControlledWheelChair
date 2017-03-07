@@ -37,6 +37,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.nightonke.jellytogglebutton.JellyToggleButton;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -234,6 +236,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                         ledState.printLedState(ledState.BLUE);
                         ledState.printLedState(ledState.GREEN);
                         ledState.printLedState(ledState.ORANGE);
+                        JellyToggleButton led2 = (JellyToggleButton)mainFragment.getView().findViewById(R.id.led2);
+                        JellyToggleButton ledGreen = (JellyToggleButton)mainFragment.getView().findViewById(R.id.led_green);
+                        JellyToggleButton ledBlue = (JellyToggleButton)mainFragment.getView().findViewById(R.id.led_blue);
+                        JellyToggleButton ledOrange = (JellyToggleButton)mainFragment.getView().findViewById(R.id.led_orange);
+                        led2.setChecked(ledState.isLed2State());
+                        ledGreen.setChecked(ledState.isGreenLedState());
+                        ledBlue.setChecked(ledState.isBlueLedState());
+                        ledOrange.setChecked(ledState.isOrangeLedState());
                         // TODO: 4/3/2017   take the value of the temperature, calculate the ratio of red/green, setColor of text view in Mainfragment
 
                         nfcv.close();

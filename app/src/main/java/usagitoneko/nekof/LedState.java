@@ -17,7 +17,7 @@ public class LedState {
     private boolean OrangeLedState;
 
     public boolean isLed2State() {
-        return led2State;
+        return isLed(LED2);
     }
 
     public void setLed2State(boolean led2State) {
@@ -25,7 +25,7 @@ public class LedState {
     }
 
     public boolean isGreenLedState() {
-        return GreenLedState;
+        return isLed(GREEN);
     }
 
     public void setGreenLedState(boolean greenLedState) {
@@ -33,7 +33,7 @@ public class LedState {
     }
 
     public boolean isBlueLedState() {
-        return BlueLedState;
+        return isLed(BLUE);
     }
 
     public void setBlueLedState(boolean blueLedState) {
@@ -41,7 +41,7 @@ public class LedState {
     }
 
     public boolean isOrangeLedState() {
-        return OrangeLedState;
+        return isLed(ORANGE);
     }
 
     public void setOrangeLedState(boolean orangeLedState) {
