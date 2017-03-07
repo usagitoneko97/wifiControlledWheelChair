@@ -226,31 +226,31 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                             // TODO: 23/2/2017   should do checking at buffer
                             Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
                         }
+                        else {
+                            MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":0");
+                            FragmentLog fragmentLog = (FragmentLog) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":1");
+                            log = (TextView) fragmentLog.getView().findViewById(R.id.log);
 
-                        MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.pager+":0");
-                        FragmentLog fragmentLog = (FragmentLog) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.pager + ":1");
-                        log = (TextView) fragmentLog.getView().findViewById(R.id.log);
+                            String buffer_hex;
+                            buffer = nfcv.transceive(new byte[]{0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
+                            int ledStatus = toInteger(buffer);
 
-                        String buffer_hex;
-                        buffer = nfcv.transceive(new byte[]{0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
-                        int ledStatus = toInteger(buffer);
-
-                        log.append("led status: "+ ledStatus +", "+ numberToHex(ledStatus));
-                        LedState ledState = new LedState( ((TextView)mainFragment.getView().findViewById(R.id.nfc_result)), ledStatus);
-                        ledState.printLedState(ledState.LED2);
-                        ledState.printLedState(ledState.BLUE);
-                        ledState.printLedState(ledState.GREEN);
-                        ledState.printLedState(ledState.ORANGE);
-                        JellyToggleButton led2 = (JellyToggleButton)mainFragment.getView().findViewById(R.id.led2);
-                        JellyToggleButton ledGreen = (JellyToggleButton)mainFragment.getView().findViewById(R.id.led_green);
-                        JellyToggleButton ledBlue = (JellyToggleButton)mainFragment.getView().findViewById(R.id.led_blue);
-                        JellyToggleButton ledOrange = (JellyToggleButton)mainFragment.getView().findViewById(R.id.led_orange);
-                        led2.setChecked(ledState.isLed2State());
-                        ledGreen.setChecked(ledState.isGreenLedState());
-                        ledBlue.setChecked(ledState.isBlueLedState());
-                        ledOrange.setChecked(ledState.isOrangeLedState());
-                        // TODO: 4/3/2017   take the value of the temperature, calculate the ratio of red/green, setColor of text view in Mainfragment
-
+                            log.append("led status: " + ledStatus + ", " + numberToHex(ledStatus));
+                            LedState ledState = new LedState(((TextView) mainFragment.getView().findViewById(R.id.nfc_result)), ledStatus);
+                            ledState.printLedState(ledState.LED2);
+                            ledState.printLedState(ledState.BLUE);
+                            ledState.printLedState(ledState.GREEN);
+                            ledState.printLedState(ledState.ORANGE);
+                            JellyToggleButton led2 = (JellyToggleButton) mainFragment.getView().findViewById(R.id.led2);
+                            JellyToggleButton ledGreen = (JellyToggleButton) mainFragment.getView().findViewById(R.id.led_green);
+                            JellyToggleButton ledBlue = (JellyToggleButton) mainFragment.getView().findViewById(R.id.led_blue);
+                            JellyToggleButton ledOrange = (JellyToggleButton) mainFragment.getView().findViewById(R.id.led_orange);
+                            led2.setChecked(ledState.isLed2State());
+                            ledGreen.setChecked(ledState.isGreenLedState());
+                            ledBlue.setChecked(ledState.isBlueLedState());
+                            ledOrange.setChecked(ledState.isOrangeLedState());
+                            // TODO: 4/3/2017   take the value of the temperature, calculate the ratio of red/green, setColor of text view in Mainfragment
+                        }
                         nfcv.close();
 
                     }else
@@ -508,6 +508,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
 // TODO: 23/2/2017 anonymous class of the switch should be modified to make it shorter (probably dont use anonymous)
 // TODO: 3/3/2017 using another method to naming the allboo[] for cleaning purposes
-// TODO: 6/3/2017 add cancel button for loading fragment (cancel writting to tag
-// TODO: 6/3/2017 Add auto set thumb for the toggle button when scan to a tag
 // TODO: 6/3/2017 label for displaying read temperature
+// TODO: 3/7/2017 settings icon for croller
+// TODO: 3/7/2017 temperature text big enough

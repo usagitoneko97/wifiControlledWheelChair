@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -32,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/pager"
             android:layout_centerHorizontal="true"
-            android:text="Led Control"
+            android:text="Led"
             android:textSize="25dp"
             android:textStyle="bold" />
         <TextView
@@ -193,7 +194,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider"
             android:layout_centerHorizontal="true"
-            android:text="Temperature Control"
+            android:text="Temperature"
             android:textSize="25dp"
             android:textStyle="bold" />
 
@@ -208,11 +209,12 @@
             app:max="1000"
             app:progress_primary_color="#0B3C49"
             app:progress_secondary_color="#EEEEEE"
+            app:label=""
             android:layout_below="@+id/headerTempControl"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:clickable="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_alignParentRight="true"/>
 
         <TextView
             android:text="23"
@@ -220,8 +222,8 @@
             android:id="@+id/temperature"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:layout_below="@+id/headerTempControl"
             android:layout_alignLeft="@+id/croller" />
 
@@ -232,7 +234,7 @@
             android:layout_below="@+id/temperature"
             android:id="@+id/divider2"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp" />
 
         <info.hoang8f.widget.FButton
             android:layout_width="match_parent"
@@ -246,6 +248,16 @@
             fbutton:shadowColor="@color/fbutton_color_emerald"
             fbutton:shadowEnabled="true" />
 
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_settings_iconsvg"
+            android:layout_alignBottom="@id/croller"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="65dp">
+
+        </ImageView>
+
 
 
 
@@ -258,10 +270,23 @@
             android:layout_below="@+id/headerTempControl"
             android:gravity="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="35sp"
+            android:textSize="65sp"
+            android:paddingTop="25dp"
             app:ticker_animationDuration="1500"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:paddingLeft="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="°C"
+            android:layout_toRightOf="@+id/tickerView"
+            android:layout_below="@+id/headerTempControl"
+            android:layout_marginTop="25dp"
+            android:paddingTop="10dp"
+            android:textSize="20dp"
+            android:paddingLeft="6dp"
+            android:textStyle="bold"/>
 
         <Space
             android:layout_width="match_parent"

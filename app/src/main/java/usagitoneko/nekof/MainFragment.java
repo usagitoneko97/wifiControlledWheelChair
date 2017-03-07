@@ -118,7 +118,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
         final TickerView tickerview = (TickerView)view.findViewById(tickerView);
         tickerview.setCharacterList(TickerUtils.getDefaultNumberList());
         //settext base on temperature read
-        tickerview.setText("55°C");
+        tickerview.setText("55");
 
 
         temperature_result_text.setText("0°C");  //initialize
@@ -137,7 +137,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
-                    tickerview.setText("65°C");
+                    tickerview.setText("65");
                     led2State=true;
                     allBool[0] = led2State;
                 }
@@ -152,7 +152,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
-                    tickerview.setText("89°C");
+                    tickerview.setText("89");
                     ledGreenState=true;
                     allBool[1] = ledGreenState;
                 }
@@ -166,7 +166,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
-                    tickerview.setText("85°C");
+                    tickerview.setText("85");
                     ledBlueState=true;
                     allBool[2] = ledBlueState;
                 }
@@ -180,7 +180,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
-                    tickerview.setText("25°C");
+                    tickerview.setText("25");
                     ledOrangeState=true;
                     allBool[3] = ledOrangeState;
                 }
@@ -231,7 +231,6 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
         croller.setIndicatorColor(Color.parseColor("#0B3C49"));
         croller.setProgressSecondaryColor(Color.parseColor("#EEEEEE"));
         croller.setIndicatorWidth(10);
-        croller.setLabel("Temperature of heater");
         return croller;
     }
 
