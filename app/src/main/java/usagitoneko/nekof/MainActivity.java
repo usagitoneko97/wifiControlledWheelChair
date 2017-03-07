@@ -48,7 +48,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.onSomeEventListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.onSomeEventListener, Loading_dialog.Callbacks {
     SimpleFragmentPagerAdapter pageAdapter;
     NfcAdapter mNfcAdapter;
     public TextView nfc_result;
@@ -111,6 +111,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
     @Override
     public void someEvent(boolean[] allBool){
         this.allBool = allBool;
+    }
+
+    @Override
+    public void getWriteStatus(boolean writeStatus) {
+        this.allBool[4] = writeStatus;
     }
 
     private void handleIntent(Intent intent) {

@@ -72,7 +72,7 @@
 
 
             <com.nightonke.jellytogglebutton.JellyToggleButton
-                android:id="@+id/led_blue"
+                android:id="@+id/led_green"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/led2"
@@ -91,8 +91,8 @@
             <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/led_blue"
-            android:id="@+id/led_green"
+            android:layout_below="@+id/led_green"
+            android:id="@+id/led_blue"
             app:jtbDuration="500"
             app:jtbJelly="lazy_tremble_head_slim_jim"
             app:jtbLeftThumbColor="@color/holo_blue_bright"
@@ -110,7 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/led_orange"
-            android:layout_below="@+id/led_green"
+            android:layout_below="@+id/led_blue"
             app:jtbDuration="500"
             app:jtbJelly="lazy_tremble_head_slim_jim"
             app:jtbLeftThumbColor="@color/fbutton_color_orange"
@@ -122,48 +122,49 @@
             app:jtbRightText="ON"
             app:jtbLeftTextColor="@color/gray"
             app:jtbRightTextColor="@color/gray" />
+
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Led2"
-                android:layout_toRightOf="@+id/led2"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
-                android:textSize="17dp"
+                android:layout_toRightOf="@+id/led2"
                 android:background="@color/yellow"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary"/>
+                android:text="    Led2      "
+                android:textColor="@color/colorPrimary"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Green Led"
-                android:layout_below="@+id/led2"
                 android:layout_alignLeft="@+id/textView7"
                 android:layout_alignStart="@+id/textView7"
+                android:layout_below="@+id/led2"
                 android:layout_marginTop="5dp"
-                android:textSize="17dp"
                 android:background="@color/holo_green_light"
-                android:textStyle="bold"
-                />
+                android:text="Green  Led"
+                android:textSize="17dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Blue Led"
-                android:layout_below="@+id/led_blue"
                 android:layout_alignLeft="@+id/textView7"
                 android:layout_alignStart="@+id/textView7"
+                android:layout_below="@+id/led_green"
                 android:layout_marginTop="5dp"
-                android:textSize="17dp"
                 android:background="@color/holo_blue_bright"
-                android:textStyle="bold"/>
+                android:text=" Blue Led   "
+                android:textSize="17dp"
+                android:textStyle="bold" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Orange Led"
-                android:layout_below="@+id/led_green"
+                android:layout_below="@+id/led_blue"
                 android:layout_alignLeft="@+id/textView7"
                 android:layout_alignStart="@+id/textView7"
                 android:layout_marginTop="5dp"
@@ -247,20 +248,6 @@
 
 
 
-        <com.spark.submitbutton.SubmitButton
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="    SUBMIT    "
-            android:textSize="12sp"
-            android:textColor="@color/gray"
-            android:id="@+id/submit2"
-            android:layout_below="@+id/set_led2"
-            android:layout_centerHorizontal="true"
-            app:sub_btn_background="@color/white"
-            app:sub_btn_duration="2000"
-            app:sub_btn_line_color="@color/colorPrimary"
-            app:sub_btn_ripple_color="@color/colorPrimary"
-            app:sub_btn_tick_color="@color/white"  />
 
 
 
@@ -271,7 +258,7 @@
             android:layout_below="@+id/headerTempControl"
             android:gravity="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="25sp"
+            android:textSize="35sp"
             app:ticker_animationDuration="1500"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -280,7 +267,7 @@
             android:layout_width="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_height="80dp"
-            android:layout_below="@+id/submit2"/>
+            android:layout_below="@+id/set_led2"/>
 
 
 

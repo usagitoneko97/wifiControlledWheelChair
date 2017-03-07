@@ -34,7 +34,7 @@ import static usagitoneko.nekof.R.id.tickerView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
 
     protected View mView;
     private JellyToggleButton led2;
@@ -66,6 +66,11 @@ public class MainFragment extends Fragment {
         public void someEvent(boolean[] allBool);
     }
     onSomeEventListener someEventListener;
+
+    @Override
+    public void getWriteStatus(boolean writeStatus) {
+        allBool[4] = writeStatus;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -110,7 +115,6 @@ public class MainFragment extends Fragment {
         set_Led2 = (Button) view.findViewById(R.id.set_led2);
         temperature_result_text = (TextView)view.findViewById(R.id.temperature);
         //temperatureColor = (TextView)view.findViewById(R.id.temperatureColor);
-        final SubmitButton sb = (SubmitButton)view.findViewById(R.id.submit2);
         final TickerView tickerview = (TickerView)view.findViewById(tickerView);
         tickerview.setCharacterList(TickerUtils.getDefaultNumberList());
         //settext base on temperature read
@@ -125,8 +129,8 @@ public class MainFragment extends Fragment {
                         PermissionSetLed2 = true;
                         allBool[4] = PermissionSetLed2;
                         Toast.makeText(getActivity(), "please place your phone close to the tag.", Toast.LENGTH_SHORT).show();
-                Loading_dialog loading_dialog = new Loading_dialog();
-                loading_dialog.show(getFragmentManager(), "123");
+                        Loading_dialog loading_dialog = new Loading_dialog();
+                        loading_dialog.show(getFragmentManager(), "123");
             }
         });
         led2.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
