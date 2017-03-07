@@ -55,7 +55,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
     private TextView log;
     public static final String MIME_TEXT_PLAIN = "text/plain";
     public static final String TAG = "NfcDemo";
+    private List<Boolean> allLedStatus = new ArrayList<>();
     private boolean[] allBool;
+    public final int WRITE_PERMISSION = 0;
+    public final int LED2 =1;
+    public final int LED_GREEN =2;
+    public final int LED_BLUE = 3;
+    public final int LED_ORANGE = 4;
+
 
 
     private ViewPager pager;
@@ -93,13 +100,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
     }
 
     @Override
-    public void someEvent(boolean[] allBool){
-        this.allBool = allBool;
+    public void someEvent(List<Boolean> allLedStatus){
+        this.allLedStatus = allLedStatus;
     }
 
     @Override
     public void getWriteStatus(boolean writeStatus) {
-        this.allBool[4] = writeStatus;
+        allLedStatus.add(WRITE_PERMISSION, writeStatus);
     }
 
     private void handleIntent(Intent intent) {
@@ -191,19 +198,19 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                     nfcv.connect();
                     if (nfcv.isConnected()) {
                         byte[] buffer;
-                        if (allBool[4]) {
-                            allBool[4] = false;
+                        if (allLedStatus.get(WRITE_PERMISSION)) {
+                            allLedStatus.add(WRITE_PERMISSION, false);
                             int resultAllLed = 0x10;//initial value predefined
-                            if (allBool[0]) {
+                            if (allLedStatus.get(LED2)) {
                                 resultAllLed = resultAllLed | (1 << 0); //set bit 0
                             }
-                            if (allBool[1]) {
+                            if (allLedStatus.get(LED_GREEN)) {
                                 resultAllLed = resultAllLed | (1 << 1); //set bit 1
                             }
-                            if (allBool[2]) {
+                            if (allLedStatus.get(LED_BLUE)) {
                                 resultAllLed = resultAllLed | (1 << 2); //set bit 2
                             }
-                            if (allBool[3]) {
+                            if (allLedStatus.get(LED_ORANGE)) {
                                 resultAllLed = resultAllLed | (1 << 3); //set bit 3
                             }
                             buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) resultAllLed, (byte) 0x00, (byte) 0x72, (byte) 0x75}); //11 instead of 01 is because to avoid nfcv cant read 00 bug
@@ -233,7 +240,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                             ledGreen.setChecked(ledState.isGreenLedState());
                             ledBlue.setChecked(ledState.isBlueLedState());
                             ledOrange.setChecked(ledState.isOrangeLedState());
-                            // TODO: 4/3/2017   take the value of the temperature, calculate the ratio of red/green, setColor of text view in Mainfragment
                         }
                         nfcv.close();
 
@@ -490,8 +496,4 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
 }
 
-// TODO: 23/2/2017 anonymous class of the switch should be modified to make it shorter (probably dont use anonymous)
-// TODO: 3/3/2017 using another method to naming the allboo[] for cleaning purposes
-// TODO: 6/3/2017 label for displaying read temperature
-// TODO: 3/7/2017 settings icon for croller
-// TODO: 3/7/2017 temperature text big enough
+// TODO: 3/7/2017 add info on all the how the things work

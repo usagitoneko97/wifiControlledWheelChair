@@ -20,6 +20,9 @@ import com.nightonke.jellytogglebutton.State;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static usagitoneko.nekof.R.id.tickerView;
 
 
@@ -33,22 +36,22 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
     private JellyToggleButton ledBlue;
     private JellyToggleButton ledGreen;
     private JellyToggleButton ledOrange;
-    private Button set_Led2;
-    private TextView nfc_result;
+    private Button confirmButton;
     private TextView knobTemperatureText;
-    private boolean led2State;
-    private boolean ledBlueState;
-    private boolean ledGreenState;
-    private boolean ledOrangeState;
-    private boolean PermissionSetLed2;
     private boolean[] allBool =new boolean[5];
+    private List<Boolean> allLedStatus = new ArrayList<>();
+    public final int WRITE_PERMISSION = 0;
+    public final int LED2 =1;
+    public final int LED_GREEN =2;
+    public final int LED_BLUE = 3;
+    public final int LED_ORANGE = 4;
 
     public MainFragment() {
         // Required empty public constructor
     }
 
     public interface onSomeEventListener{
-        public void someEvent(boolean[] allBool);
+        public void someEvent(List<Boolean> allLedStatus);
     }
     onSomeEventListener someEventListener;
 
@@ -84,6 +87,12 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         //non graphical initialization
         super.onCreate(savedInstanceState);
+        allLedStatus.add(WRITE_PERMISSION,false);
+        allLedStatus.add(LED2,false);
+        allLedStatus.add(LED_GREEN,false);
+        allLedStatus.add(LED_BLUE,false);
+        allLedStatus.add(LED_ORANGE,false);
+
     }
 
 
@@ -91,27 +100,27 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        nfc_result = (TextView) view.findViewById(R.id.nfc_result);
         led2 = (JellyToggleButton)view.findViewById(R.id.led2);
         ledBlue = (JellyToggleButton) view.findViewById(R.id.ledBlue);
         ledGreen = (JellyToggleButton) view.findViewById(R.id.ledGreen);
         ledOrange = (JellyToggleButton) view.findViewById(R.id.ledOrange) ;
-        set_Led2 = (Button) view.findViewById(R.id.set_led2);
+        confirmButton = (Button) view.findViewById(R.id.confirmButton);
         knobTemperatureText = (TextView)view.findViewById(R.id.temperature);
         final TickerView tickerview = (TickerView)view.findViewById(tickerView);
         tickerview.setCharacterList(TickerUtils.getDefaultNumberList());
 
+
         tickerview.setText("55");
         knobTemperatureText.setText("0°C");  //initialize
         this.mView = view;
-        set_Led2.setOnClickListener(new View.OnClickListener(){
+        confirmButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                        PermissionSetLed2 = true;
-                        allBool[4] = PermissionSetLed2;
-                        Toast.makeText(getActivity(), "please place your phone close to the tag.", Toast.LENGTH_SHORT).show();
-                        Loading_dialog loading_dialog = new Loading_dialog();
-                        loading_dialog.show(getFragmentManager(), "123");
+
+                allLedStatus.set(WRITE_PERMISSION, true);
+                Toast.makeText(getActivity(), "please place your phone close to the tag.", Toast.LENGTH_SHORT).show();
+                Loading_dialog loading_dialog = new Loading_dialog();
+                loading_dialog.show(getFragmentManager(), "123");
             }
         });
         led2.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
@@ -119,13 +128,10 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
                     tickerview.setText("65");
-                    led2State=true;
-                    allBool[0] = led2State;
+                    allLedStatus.set(LED2, true);
                 }
                 else if (state.equals(State.LEFT)){
-                    led2State=false;
-                    allBool[0] = led2State;
-
+                    allLedStatus.set(LED2, false);
                 }
             }
         });
@@ -134,12 +140,10 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
                     tickerview.setText("89");
-                    ledGreenState=true;
-                    allBool[1] = ledGreenState;
+                    allLedStatus.set(LED_GREEN, true);
                 }
                 else if (state.equals(State.LEFT)){
-                    ledGreenState=false;
-                    allBool[1] = ledGreenState;
+                    allLedStatus.set(LED_GREEN, false);
                 }
             }
         });
@@ -148,12 +152,10 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
                     tickerview.setText("85");
-                    ledBlueState=true;
-                    allBool[2] = ledBlueState;
+                    allLedStatus.set(LED_BLUE, true);
                 }
                 else if (state.equals(State.LEFT)){
-                    ledBlueState=false;
-                    allBool[2] = ledBlueState;
+                    allLedStatus.set(LED_BLUE, false);
                 }
             }
         });
@@ -162,12 +164,10 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
                     tickerview.setText("25");
-                    ledOrangeState=true;
-                    allBool[3] = ledOrangeState;
+                    allLedStatus.set(LED_ORANGE, true);
                 }
                 else if (state.equals(State.LEFT)){
-                    ledOrangeState=false;
-                    allBool[3] = ledOrangeState;
+                    allLedStatus.set(LED_ORANGE, false);
                 }
             }
         });
@@ -197,7 +197,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
             }
         });
 
-        someEventListener.someEvent(allBool);
+        someEventListener.someEvent(allLedStatus);
         return view;
     }
 

@@ -242,7 +242,7 @@
             android:layout_below="@+id/divider2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
-            android:id="@+id/set_led2"
+            android:id="@+id/confirmButton"
             android:text="Submit"
             fbutton:buttonColor="@color/fbutton_color_turquoise"
             fbutton:shadowColor="@color/fbutton_color_emerald"
@@ -292,7 +292,7 @@
             android:layout_width="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_height="80dp"
-            android:layout_below="@+id/set_led2"/>
+            android:layout_below="@+id/confirmButton"/>
 
 
 
