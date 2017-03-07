@@ -52,20 +52,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
     SimpleFragmentPagerAdapter pageAdapter;
     NfcAdapter mNfcAdapter;
     public TextView nfc_result;
-    private Switch led2;
-    private Switch led_blue;
-    private Switch led_green;
-    private Switch led_orange;
-    private Button set_Led2;
-    private boolean PermissionSetLed2;
     private TextView log;
     public static final String MIME_TEXT_PLAIN = "text/plain";
     public static final String TAG = "NfcDemo";
-    int buffer_receive[];
-    private boolean led2State;
-    private boolean ledBlueState;
-    private boolean ledGreenState;
-    private boolean ledOrangeState;
     private boolean[] allBool;
 
 
@@ -84,11 +73,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
         pager.setAdapter(pageAdapter);
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);
-       /* tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);*/
-        //pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setupWithViewPager(pager);
 
 
@@ -242,9 +226,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                             ledState.printLedState(ledState.GREEN);
                             ledState.printLedState(ledState.ORANGE);
                             JellyToggleButton led2 = (JellyToggleButton) mainFragment.getView().findViewById(R.id.led2);
-                            JellyToggleButton ledGreen = (JellyToggleButton) mainFragment.getView().findViewById(R.id.led_green);
-                            JellyToggleButton ledBlue = (JellyToggleButton) mainFragment.getView().findViewById(R.id.led_blue);
-                            JellyToggleButton ledOrange = (JellyToggleButton) mainFragment.getView().findViewById(R.id.led_orange);
+                            JellyToggleButton ledGreen = (JellyToggleButton) mainFragment.getView().findViewById(R.id.ledGreen);
+                            JellyToggleButton ledBlue = (JellyToggleButton) mainFragment.getView().findViewById(R.id.ledBlue);
+                            JellyToggleButton ledOrange = (JellyToggleButton) mainFragment.getView().findViewById(R.id.ledOrange);
                             led2.setChecked(ledState.isLed2State());
                             ledGreen.setChecked(ledState.isGreenLedState());
                             ledBlue.setChecked(ledState.isBlueLedState());

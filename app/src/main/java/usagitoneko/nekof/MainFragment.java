@@ -6,27 +6,19 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-//import android.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 
 import com.nightonke.jellytogglebutton.JellyToggleButton;
 import com.nightonke.jellytogglebutton.State;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
-import com.spark.submitbutton.SubmitButton;
 
 import static usagitoneko.nekof.R.id.tickerView;
 
@@ -38,14 +30,12 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
 
     protected View mView;
     private JellyToggleButton led2;
-    private JellyToggleButton led_blue;
-    private JellyToggleButton led_green;
-    private JellyToggleButton led_orange;
+    private JellyToggleButton ledBlue;
+    private JellyToggleButton ledGreen;
+    private JellyToggleButton ledOrange;
     private Button set_Led2;
     private TextView nfc_result;
-    private TextView temperature_result_text;
-    private TextView temperatureColor;
-    private int temperature_result;
+    private TextView knobTemperatureText;
     private boolean led2State;
     private boolean ledBlueState;
     private boolean ledGreenState;
@@ -57,11 +47,6 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
         // Required empty public constructor
     }
 
-    /*public static MainFragment newInstance(String Message){
-        MainFragment mainFragment = new MainFragment();
-        Bundle bundle = new Bundle(1);
-
-    }*/
     public interface onSomeEventListener{
         public void someEvent(boolean[] allBool);
     }
@@ -105,23 +90,19 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         nfc_result = (TextView) view.findViewById(R.id.nfc_result);
         led2 = (JellyToggleButton)view.findViewById(R.id.led2);
-        led_blue = (JellyToggleButton) view.findViewById(R.id.led_blue);
-        led_green = (JellyToggleButton) view.findViewById(R.id.led_green);
-        led_orange = (JellyToggleButton) view.findViewById(R.id.led_orange) ;
+        ledBlue = (JellyToggleButton) view.findViewById(R.id.ledBlue);
+        ledGreen = (JellyToggleButton) view.findViewById(R.id.ledGreen);
+        ledOrange = (JellyToggleButton) view.findViewById(R.id.ledOrange) ;
         set_Led2 = (Button) view.findViewById(R.id.set_led2);
-        temperature_result_text = (TextView)view.findViewById(R.id.temperature);
-        //temperatureColor = (TextView)view.findViewById(R.id.temperatureColor);
+        knobTemperatureText = (TextView)view.findViewById(R.id.temperature);
         final TickerView tickerview = (TickerView)view.findViewById(tickerView);
         tickerview.setCharacterList(TickerUtils.getDefaultNumberList());
-        //settext base on temperature read
+
         tickerview.setText("55");
-
-
-        temperature_result_text.setText("0°C");  //initialize
+        knobTemperatureText.setText("0°C");  //initialize
         this.mView = view;
         set_Led2.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -148,7 +129,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
                 }
             }
         });
-        led_green.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
+        ledGreen.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
@@ -162,7 +143,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
                 }
             }
         });
-        led_blue.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
+        ledBlue.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
@@ -176,7 +157,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
                 }
             }
         });
-        led_orange.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
+        ledOrange.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
@@ -196,8 +177,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
         croller.setOnProgressChangedListener(new Croller.onProgressChangedListener() {
             @Override
             public void onProgressChanged(int progress) {
-                temperature_result = progress;
-                temperature_result_text.setText(progress + "°C");
+                knobTemperatureText.setText(progress + "°C");
 
                if (progress<20){
                    tickerview.setTextColor(Color.rgb(00,0xed,0xff));    //light blue

@@ -73,7 +73,7 @@
 
 
             <com.nightonke.jellytogglebutton.JellyToggleButton
-                android:id="@+id/led_green"
+                android:id="@+id/ledGreen"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/led2"
@@ -92,8 +92,8 @@
             <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/led_green"
-            android:id="@+id/led_blue"
+            android:layout_below="@+id/ledGreen"
+            android:id="@+id/ledBlue"
             app:jtbDuration="500"
             app:jtbJelly="lazy_tremble_head_slim_jim"
             app:jtbLeftThumbColor="@color/holo_blue_bright"
@@ -110,8 +110,8 @@
             <com.nightonke.jellytogglebutton.JellyToggleButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/led_orange"
-            android:layout_below="@+id/led_blue"
+            android:id="@+id/ledOrange"
+            android:layout_below="@+id/ledBlue"
             app:jtbDuration="500"
             app:jtbJelly="lazy_tremble_head_slim_jim"
             app:jtbLeftThumbColor="@color/fbutton_color_orange"
@@ -155,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/textView7"
                 android:layout_alignStart="@+id/textView7"
-                android:layout_below="@+id/led_green"
+                android:layout_below="@+id/ledGreen"
                 android:layout_marginTop="5dp"
                 android:background="@color/holo_blue_bright"
                 android:text=" Blue Led   "
@@ -165,7 +165,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Orange Led"
-                android:layout_below="@+id/led_blue"
+                android:layout_below="@+id/ledBlue"
                 android:layout_alignLeft="@+id/textView7"
                 android:layout_alignStart="@+id/textView7"
                 android:layout_marginTop="5dp"
