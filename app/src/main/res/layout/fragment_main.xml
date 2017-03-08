@@ -17,7 +17,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <android.support.v4.view.ViewPager
@@ -236,17 +236,14 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp" />
 
-        <info.hoang8f.widget.FButton
+        <Space
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="15dp"
             android:layout_below="@+id/divider2"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:id="@+id/confirmButton"
-            android:text="Submit"
-            fbutton:buttonColor="@color/fbutton_color_turquoise"
-            fbutton:shadowColor="@color/fbutton_color_emerald"
-            fbutton:shadowEnabled="true" />
+            android:text="Submit" />
 
         <ImageView
             android:layout_width="25dp"
@@ -257,10 +254,6 @@
             android:layout_marginRight="65dp">
 
         </ImageView>
-
-
-
-
 
 
         <com.robinhood.ticker.TickerView
@@ -293,9 +286,6 @@
             android:layout_alignParentBottom="true"
             android:layout_height="80dp"
             android:layout_below="@+id/confirmButton"/>
-
-
-
 
     </RelativeLayout>
 </ScrollView>

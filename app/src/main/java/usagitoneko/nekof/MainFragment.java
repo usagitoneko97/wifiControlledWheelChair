@@ -104,7 +104,6 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
         ledBlue = (JellyToggleButton) view.findViewById(R.id.ledBlue);
         ledGreen = (JellyToggleButton) view.findViewById(R.id.ledGreen);
         ledOrange = (JellyToggleButton) view.findViewById(R.id.ledOrange) ;
-        confirmButton = (Button) view.findViewById(R.id.confirmButton);
         knobTemperatureText = (TextView)view.findViewById(R.id.temperature);
         final TickerView tickerview = (TickerView)view.findViewById(tickerView);
         tickerview.setCharacterList(TickerUtils.getDefaultNumberList());
@@ -113,16 +112,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
         tickerview.setText("55");
         knobTemperatureText.setText("0°C");  //initialize
         this.mView = view;
-        confirmButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
 
-                allLedStatus.set(WRITE_PERMISSION, true);
-                Toast.makeText(getActivity(), "please place your phone close to the tag.", Toast.LENGTH_SHORT).show();
-                Loading_dialog loading_dialog = new Loading_dialog();
-                loading_dialog.show(getFragmentManager(), "123");
-            }
-        });
         led2.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
