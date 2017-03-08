@@ -501,3 +501,4 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
 // TODO: 3/7/2017 add info on all the how the things work
 // TODO: 3/8/2017 checking at read and data to be writen to minimize writing
+// TODO: 9/3/2017 initialize a variable for check to display the snakbar the first time user touch

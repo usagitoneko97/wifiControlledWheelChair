@@ -12,9 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.view.View.OnClickListener;
 import android.support.v4.app.Fragment;
-
 import com.nightonke.jellytogglebutton.JellyToggleButton;
 import com.nightonke.jellytogglebutton.State;
 import com.robinhood.ticker.TickerUtils;
@@ -29,13 +28,15 @@ import static usagitoneko.nekof.R.id.tickerView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
+public class MainFragment extends Fragment implements Loading_dialog.Callbacks, OnClickListener {
 
     protected View mView;
     private JellyToggleButton led2;
     private JellyToggleButton ledBlue;
     private JellyToggleButton ledGreen;
     private JellyToggleButton ledOrange;
+    private TickerView tickerView;
+    private Croller croller;
     private Button confirmButton;
     private TextView knobTemperatureText;
     private boolean[] allBool =new boolean[5];
@@ -55,6 +56,9 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
     }
     onSomeEventListener someEventListener;
 
+    public void dummy(){
+        Toast.makeText(getActivity(), "toast!!!", Toast.LENGTH_SHORT).show();
+    }
     @Override
     public void getWriteStatus(boolean writeStatus) {
         allBool[4] = writeStatus;
@@ -95,6 +99,53 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
 
     }
 
+    @Override
+    public void onClick(View v) {
+        //display
+        Toast.makeText(getActivity(), "on CLICK", Toast.LENGTH_SHORT).show();
+        switch (v.getId()){
+            case R.id.led2:
+                if(led2.isChecked()){
+                    tickerView.setText("65");
+                    allLedStatus.set(LED2, true);
+                }
+                else{
+                    allLedStatus.set(LED2, false);
+                }
+                break;
+            case R.id.ledGreen:
+                if(ledGreen.isChecked()){
+                    tickerView.setText("89");
+                    allLedStatus.set(LED_GREEN, true);
+                }
+                else{
+                    allLedStatus.set(LED_GREEN, false);
+                }
+                break;
+            case R.id.ledBlue:
+                if(ledBlue.isChecked()){
+                    tickerView.setText("63");
+                    allLedStatus.set(LED_BLUE, true);
+                }
+                else{
+                    allLedStatus.set(LED_BLUE, false);
+                }
+                break;
+            case R.id.ledOrange:
+                if(ledOrange.isChecked()){
+                    tickerView.setText("63");
+                    allLedStatus.set(LED_ORANGE, true);
+                }
+                else{
+                    allLedStatus.set(LED_ORANGE, false);
+                }
+                break;
+            case R.id.croller:
+                Toast.makeText(getActivity(), "croller!!", Toast.LENGTH_SHORT).show();
+                knobTemperatureText.setText(croller.getProgress() + "°C");
+                break;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,15 +156,22 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
         ledGreen = (JellyToggleButton) view.findViewById(R.id.ledGreen);
         ledOrange = (JellyToggleButton) view.findViewById(R.id.ledOrange) ;
         knobTemperatureText = (TextView)view.findViewById(R.id.temperature);
-        final TickerView tickerview = (TickerView)view.findViewById(tickerView);
-        tickerview.setCharacterList(TickerUtils.getDefaultNumberList());
+        tickerView = (TickerView)view.findViewById(R.id.tickerView);
+        tickerView.setCharacterList(TickerUtils.getDefaultNumberList());
+        croller = (Croller) view.findViewById(R.id.croller);
+        croller = initCroller(croller);
+        croller.setMax(100);
+        croller.setOnClickListener(this);
+        led2.setOnClickListener(this);
+        ledBlue.setOnClickListener(this);
+        ledGreen.setOnClickListener(this);
+        ledOrange.setOnClickListener(this);
 
-
-        tickerview.setText("55");
+        tickerView.setText("55");
         knobTemperatureText.setText("0°C");  //initialize
         this.mView = view;
 
-        led2.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
+       /* led2.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
@@ -124,8 +182,8 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
                     allLedStatus.set(LED2, false);
                 }
             }
-        });
-        ledGreen.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
+        });*/
+       /* ledGreen.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
             @Override
             public void onStateChange (float process, State state, JellyToggleButton jtb){
                 if(state.equals(State.RIGHT)){
@@ -160,16 +218,14 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
                     allLedStatus.set(LED_ORANGE, false);
                 }
             }
-        });
-        Croller croller = (Croller) view.findViewById(R.id.croller);
-        croller = initCroller(croller);
-        croller.setMax(100);
-        croller.setOnProgressChangedListener(new Croller.onProgressChangedListener() {
+        });*/
+
+        /*croller.setOnProgressChangedListener(new Croller.onProgressChangedListener() {
             @Override
             public void onProgressChanged(int progress) {
-                knobTemperatureText.setText(progress + "°C");
+                knobTemperatureText.setText(progress + "°C");*/
 
-               if (progress<20){
+               /*if (progress<20){
                    tickerview.setTextColor(Color.rgb(00,0xed,0xff));    //light blue
                 }
                 else if(progress<40&&progress>=20){
@@ -183,9 +239,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks {
                }
                else{
                    tickerview.setTextColor(Color.rgb(0xff, 00, 0x4c));
-               }
-            }
-        });
+               }*/
 
         someEventListener.someEvent(allLedStatus);
         return view;

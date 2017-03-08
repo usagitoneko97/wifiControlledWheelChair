@@ -214,6 +214,7 @@
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:clickable="true"
+            android:onClick="dummy"
             android:layout_alignParentRight="true"/>
 
         <TextView
