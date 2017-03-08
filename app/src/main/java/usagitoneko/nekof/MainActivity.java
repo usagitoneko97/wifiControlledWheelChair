@@ -178,6 +178,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
     }
     @Override
     public void onNewIntent(Intent intent) {
+        FragmentLog fragmentLog = (FragmentLog) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":1");
+        log = (TextView) fragmentLog.getView().findViewById(R.id.log);
+        log.setText("New intent received!");
         //stop the fragment dialog
         Fragment dialog = getSupportFragmentManager().findFragmentByTag("Loading_dialog");
         if(dialog!=null){
@@ -188,18 +191,20 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
         if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction()))
         {
+            log.append("\nNfc type intent: ACTION_TECH_DISCOVERED");
             Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             NfcV nfcv = NfcV.get(detectedTag);
             if(nfcv == null){
+                log.append("\nError! NfcV not detected");
                 //not nfcV type
             }
             else {
                 try {
                     nfcv.connect();
                     if (nfcv.isConnected()) {
+                        log.append("\nsucessfully connected to nfc type V");
                         byte[] buffer;
-                        if (allLedStatus.get(WRITE_PERMISSION)) {
-                            allLedStatus.add(WRITE_PERMISSION, false);
+                            log.append("\nBegin writing to tag...");
                             int resultAllLed = 0x10;//initial value predefined
                             if (allLedStatus.get(LED2)) {
                                 resultAllLed = resultAllLed | (1 << 0); //set bit 0
@@ -216,18 +221,19 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                             buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) resultAllLed, (byte) 0x00, (byte) 0x72, (byte) 0x75}); //11 instead of 01 is because to avoid nfcv cant read 00 bug
                             // TODO: 23/2/2017   should do checking at buffer
                             Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                            log.append("\nsuccessfully write in the tag! ");
+
+                            log.append("\nBegin Reading from tag...");
                             MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":0");
-                            FragmentLog fragmentLog = (FragmentLog) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":1");
-                            log = (TextView) fragmentLog.getView().findViewById(R.id.log);
+
 
                             String buffer_hex;
                             buffer = nfcv.transceive(new byte[]{0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
+                            log.append("\nsuccessfully read from the tag! ");
                             int ledStatus = toInteger(buffer);
 
                             log.append("led status: " + ledStatus + ", " + numberToHex(ledStatus));
-                            LedState ledState = new LedState(((TextView) mainFragment.getView().findViewById(R.id.nfc_result)), ledStatus);
+                            LedState ledState = new LedState(((TextView) mainFragment.getView().findViewById(R.id.nfc_result)) ,log, ledStatus);
                             ledState.printLedState(ledState.LED2);
                             ledState.printLedState(ledState.BLUE);
                             ledState.printLedState(ledState.GREEN);
@@ -240,19 +246,21 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                             ledGreen.setChecked(ledState.isGreenLedState());
                             ledBlue.setChecked(ledState.isBlueLedState());
                             ledOrange.setChecked(ledState.isOrangeLedState());
-                        }
+
+                            log.append("\nClosing nfcv connection...");
                         nfcv.close();
 
                     }else
-                        log.append("Not connected to the tag");
+                        log.append("\nNot connected to the tag");
                 } catch (IOException e) {
-                    log.append("Error");
+                    log.append("\nError");
                 }
 
             }
         }
 
         else {  //has NDEF inside the tag
+            log.append("\nNDEF data found inside!");
             handleIntent(intent); //read data on the tag and display to the textview
             if (isNfcIntent(intent)) {
                 NdefMessage ndefMessage = createTextMessage("hello there!");

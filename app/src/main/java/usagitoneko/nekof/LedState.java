@@ -49,10 +49,12 @@ public class LedState {
     }
 
     private TextView nfc_result;
+    private TextView log;
     private int ledStatus;
-    public LedState(TextView nfc_result, int ledStatus){
+    public LedState(TextView nfc_result,TextView log, int ledStatus){
         this.nfc_result = nfc_result;
         this.ledStatus = ledStatus;
+        this.log = log;
         nfc_result.setText(""); //to clear the status of led every newIntent come
     }
 
@@ -80,10 +82,10 @@ public class LedState {
     }
     public void printLedState(int ledColour){
         if(isLed(ledColour)){
-            nfc_result.append("\n"+getName(ledColour) +" is on");
+            log.append("\n"+getName(ledColour) +" is on");
         }
         else {
-            nfc_result.append("\n"+getName(ledColour) +" is off");
+            log.append("\n"+getName(ledColour) +" is off");
         }
 
     }
