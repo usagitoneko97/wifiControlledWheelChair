@@ -242,10 +242,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                             JellyToggleButton ledGreen = (JellyToggleButton) mainFragment.getView().findViewById(R.id.ledGreen);
                             JellyToggleButton ledBlue = (JellyToggleButton) mainFragment.getView().findViewById(R.id.ledBlue);
                             JellyToggleButton ledOrange = (JellyToggleButton) mainFragment.getView().findViewById(R.id.ledOrange);
-                            led2.setChecked(ledState.isLed2State());
-                            ledGreen.setChecked(ledState.isGreenLedState());
-                            ledBlue.setChecked(ledState.isBlueLedState());
-                            ledOrange.setChecked(ledState.isOrangeLedState());
 
                             log.append("\nClosing nfcv connection...");
                         nfcv.close();
@@ -258,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
             }
         }
-
         else {  //has NDEF inside the tag
             log.append("\nNDEF data found inside!");
             handleIntent(intent); //read data on the tag and display to the textview
@@ -505,3 +500,4 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 }
 
 // TODO: 3/7/2017 add info on all the how the things work
+// TODO: 3/8/2017 checking at read and data to be writen to minimize writing
