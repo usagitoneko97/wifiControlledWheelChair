@@ -16,6 +16,7 @@ import android.nfc.tech.NdefFormatable;
 import android.nfc.tech.NfcV;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -51,6 +52,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements MainFragment.onSomeEventListener, Loading_dialog.Callbacks {
     SimpleFragmentPagerAdapter pageAdapter;
     NfcAdapter mNfcAdapter;
+    private Bundle bundle;
     public TextView nfc_result;
     private TextView log;
     public static final String MIME_TEXT_PLAIN = "text/plain";
@@ -75,7 +77,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
         setSupportActionBar(toolbar);
         toolbar.setTitle("NFC Application");
         toolbar.setTitleTextColor(Color.WHITE);
-        pageAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager());
+        bundle = new Bundle();
+        bundle.putBoolean("firstClick", false);
+        pageAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), bundle);
         pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(pageAdapter);
 
@@ -178,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
     }
     @Override
     public void onNewIntent(Intent intent) {
+        bundle.putBoolean("firstClick", true);
         FragmentLog fragmentLog = (FragmentLog) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":1");
         log = (TextView) fragmentLog.getView().findViewById(R.id.log);
         log.setText("New intent received!");
@@ -234,6 +239,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
                             log.append("led status: " + ledStatus + ", " + numberToHex(ledStatus));
                             LedState ledState = new LedState(((TextView) mainFragment.getView().findViewById(R.id.nfc_result)) ,log, ledStatus);
+                            bundle.putBoolean("led2", ledState.isLed2State());
+                            bundle.putBoolean("ledGreen", ledState.isGreenLedState());
+                            bundle.putBoolean("ledBlue", ledState.isBlueLedState());
+                            bundle.putBoolean("ledOrange", ledState.isOrangeLedState());
                             ledState.printLedState(ledState.LED2);
                             ledState.printLedState(ledState.BLUE);
                             ledState.printLedState(ledState.GREEN);
@@ -393,16 +402,20 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
     private class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
         private List<Fragment> fragments;
+        private Bundle fragmentBundle;
 
-        public SimpleFragmentPagerAdapter (FragmentManager fm){
+        public SimpleFragmentPagerAdapter (FragmentManager fm, Bundle data){
             super(fm);
+            fragmentBundle = data;
         }
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             if(position ==0){
-                return (new MainFragment());
+                final MainFragment mainFragment = new MainFragment();
+                mainFragment.setArguments(this.fragmentBundle);
+                return (mainFragment);
             }
             else if(position ==1){
                 return (new FragmentLog());

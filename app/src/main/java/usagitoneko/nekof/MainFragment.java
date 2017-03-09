@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks, 
     public final int LED_GREEN =2;
     public final int LED_BLUE = 3;
     public final int LED_ORANGE = 4;
+    private boolean firstClick;
 
     public MainFragment() {
         // Required empty public constructor
@@ -91,6 +93,8 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks, 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         //non graphical initialization
         super.onCreate(savedInstanceState);
+
+
         allLedStatus.add(WRITE_PERMISSION,false);
         allLedStatus.add(LED2,false);
         allLedStatus.add(LED_GREEN,false);
@@ -102,7 +106,29 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks, 
     @Override
     public void onClick(View v) {
         //display
-        Toast.makeText(getActivity(), "on CLICK", Toast.LENGTH_SHORT).show();
+        final Bundle args = getArguments();
+        firstClick = args.getBoolean("firstClick");
+        args.putBoolean("firstClick", false);
+        if(firstClick){
+            Snackbar.make(getView(), "Please place your phone near to the tag.", Snackbar.LENGTH_LONG)
+                    .setAction("UNDO", new OnClickListener(){
+                        @Override
+                        public void onClick(View v) {
+                            led2.setChecked(args.getBoolean("led2"));
+                            allLedStatus.set(LED2,args.getBoolean("led2"));
+                            ledGreen.setChecked(args.getBoolean("ledGreen"));
+                            allLedStatus.set(LED_GREEN,args.getBoolean("ledGreen"));
+                            ledBlue.setChecked(args.getBoolean("ledBlue"));
+                            allLedStatus.set(LED_BLUE,args.getBoolean("ledBlue"));
+                            ledOrange.setChecked(args.getBoolean("ledOrange"));
+                            allLedStatus.set(LED_ORANGE,args.getBoolean("ledOrange"));
+                            args.putBoolean("firstClick", true); //snackbar again if onclick detected
+                            Toast.makeText(getActivity(), "Settings reverted to initial state.", Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
+            Toast.makeText(getActivity(), "you have succeed!", Toast.LENGTH_SHORT).show();
+        }
+
         switch (v.getId()){
             case R.id.led2:
                 if(led2.isChecked()){
@@ -140,10 +166,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks, 
                     allLedStatus.set(LED_ORANGE, false);
                 }
                 break;
-            case R.id.croller:
-                Toast.makeText(getActivity(), "croller!!", Toast.LENGTH_SHORT).show();
-                knobTemperatureText.setText(croller.getProgress() + "°C");
-                break;
+
         }
     }
 
@@ -167,79 +190,25 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks, 
         ledGreen.setOnClickListener(this);
         ledOrange.setOnClickListener(this);
 
+
         tickerView.setText("55");
         knobTemperatureText.setText("0°C");  //initialize
         this.mView = view;
 
-       /* led2.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
-            @Override
-            public void onStateChange (float process, State state, JellyToggleButton jtb){
-                if(state.equals(State.RIGHT)){
-                    tickerview.setText("65");
-                    allLedStatus.set(LED2, true);
-                }
-                else if (state.equals(State.LEFT)){
-                    allLedStatus.set(LED2, false);
-                }
-            }
-        });*/
-       /* ledGreen.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
-            @Override
-            public void onStateChange (float process, State state, JellyToggleButton jtb){
-                if(state.equals(State.RIGHT)){
-                    tickerview.setText("89");
-                    allLedStatus.set(LED_GREEN, true);
-                }
-                else if (state.equals(State.LEFT)){
-                    allLedStatus.set(LED_GREEN, false);
-                }
-            }
-        });
-        ledBlue.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
-            @Override
-            public void onStateChange (float process, State state, JellyToggleButton jtb){
-                if(state.equals(State.RIGHT)){
-                    tickerview.setText("85");
-                    allLedStatus.set(LED_BLUE, true);
-                }
-                else if (state.equals(State.LEFT)){
-                    allLedStatus.set(LED_BLUE, false);
-                }
-            }
-        });
-        ledOrange.setOnStateChangeListener(new JellyToggleButton.OnStateChangeListener(){
-            @Override
-            public void onStateChange (float process, State state, JellyToggleButton jtb){
-                if(state.equals(State.RIGHT)){
-                    tickerview.setText("25");
-                    allLedStatus.set(LED_ORANGE, true);
-                }
-                else if (state.equals(State.LEFT)){
-                    allLedStatus.set(LED_ORANGE, false);
-                }
-            }
-        });*/
-
-        /*croller.setOnProgressChangedListener(new Croller.onProgressChangedListener() {
+        croller.setOnProgressChangedListener(new Croller.onProgressChangedListener() {
             @Override
             public void onProgressChanged(int progress) {
-                knobTemperatureText.setText(progress + "°C");*/
-
-               /*if (progress<20){
-                   tickerview.setTextColor(Color.rgb(00,0xed,0xff));    //light blue
+                final Bundle args = getArguments();
+                firstClick = args.getBoolean("firstClick");
+                args.putBoolean("firstClick", false);
+                if(firstClick){
+                    Snackbar.make(getView(), "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                 }
-                else if(progress<40&&progress>=20){
-                   tickerview.setTextColor(Color.rgb(00, 0x83, 0xff));
-               }
-               else if(progress<60&&progress>=40){
-                   tickerview.setTextColor(Color.rgb(0x66, 00, 0xff));
-               }
-               else if(progress<80&&progress>=60){
-                   tickerview.setTextColor(Color.rgb(0xff, 00, 0xe5));
-               }
-               else{
-                   tickerview.setTextColor(Color.rgb(0xff, 00, 0x4c));
-               }*/
+                knobTemperatureText.setText(progress + "°C");
+
+            }
+        });
 
         someEventListener.someEvent(allLedStatus);
         return view;
@@ -280,4 +249,16 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks, 
                 else{
                     //0.5
                     temperatureColor.setBackgroundColor(Color.rgb(255, 0, 255));
+                }*/
+
+/*if (progress < 20) {
+                    tickerview.setTextColor(Color.rgb(00, 0xed, 0xff));    //light blue
+                } else if (progress < 40 && progress >= 20) {
+                    tickerview.setTextColor(Color.rgb(00, 0x83, 0xff));
+                } else if (progress < 60 && progress >= 40) {
+                    tickerview.setTextColor(Color.rgb(0x66, 00, 0xff));
+                } else if (progress < 80 && progress >= 60) {
+                    tickerview.setTextColor(Color.rgb(0xff, 00, 0xe5));
+                } else {
+                    tickerview.setTextColor(Color.rgb(0xff, 00, 0x4c));
                 }*/
