@@ -17,11 +17,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    useLibrary 'org.apache.http.legacy'
 }
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -36,4 +37,8 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.3.0'
     compile 'com.tuyenmonkey:mkloader:1.0.0'
     compile 'info.hoang8f:fbutton:1.0.5'
+    compile files('src/main/java/usagitoneko/nekof/GenAsync.jar')
+    compile files('src/main/java/usagitoneko/nekof/gson-2.8.0-sources.jar')
+    compile files('src/main/java/usagitoneko/nekof/KGJsonConverter.jar')
+    compile group: 'cz.msebera.android' , name: 'httpclient', version: '4.4.1.1'
 }

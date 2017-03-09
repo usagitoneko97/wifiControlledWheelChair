@@ -4,6 +4,8 @@ package usagitoneko.nekof;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -38,18 +40,46 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.kosalgeek.asynctask.AsyncResponse;
+import com.kosalgeek.asynctask.PostResponseAsyncTask;
 import com.nightonke.jellytogglebutton.JellyToggleButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.onSomeEventListener, Loading_dialog.Callbacks {
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.NameValuePair;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.ResponseHandler;
+import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
+import cz.msebera.android.httpclient.client.methods.HttpGet;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.conn.scheme.Scheme;
+import cz.msebera.android.httpclient.conn.scheme.SchemeRegistry;
+import cz.msebera.android.httpclient.conn.ssl.SSLSocketFactory;
+import cz.msebera.android.httpclient.impl.client.BasicResponseHandler;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.impl.client.HttpClientBuilder;
+
+
+public class MainActivity extends AppCompatActivity implements MainFragment.onSomeEventListener, Loading_dialog.Callbacks, AsyncResponse {
     SimpleFragmentPagerAdapter pageAdapter;
     NfcAdapter mNfcAdapter;
     private Bundle bundle;
@@ -85,10 +115,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(pager);
-
-
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
+        /*PostResponseAsyncTask task = new PostResponseAsyncTask(this, this);
+        task.execute("file:///C:/Users/user/Documents/jsonDummy1.json");*/
+        new MyAsyncTask().execute("https://github.com/usagitoneko97/Stm32-and-nfc02A1-led-control/blob/finalOfLayout/jsonDummy1.json");
 
         //listen to button clicks
         if (mNfcAdapter == null) {
@@ -101,6 +132,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
             handleIntent(getIntent());
             //display whatever title desired
         }
+    }
+
+    @Override
+    public void processFinish(String s) {
+        Toast.makeText(this, "dummy:"+s, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -506,6 +542,93 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
                 nfc_result.setText("Read content: " + result);
             }
         }
+    }
+
+
+    class MyAsyncTask extends AsyncTask<String, String, Void> {
+
+        private ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+        InputStream inputStream = null;
+        String result = "";
+
+        protected void onPreExecute() {
+            progressDialog.setMessage("Downloading your data...");
+            progressDialog.show();
+            progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                public void onCancel(DialogInterface arg0) {
+                    MyAsyncTask.this.cancel(true);
+                }
+            });
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            //String url_select = "http://raw.githubusercontent.com/usagitoneko97/Stm32-and-nfc02A1-led-control/finalOfLayout/jsonDummy1.json";
+            String url_select = "https://jsonparsingdemo-cec5b.firebaseapp.com/jsonData/moviesDemoItem.txt";
+            ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+
+            try {
+                // Set up HTTP post
+                // HttpClient is more then less deprecated. Need to change to URLConnection
+                HttpClient httpClient = HttpClientBuilder.create().build();
+                HttpPost httpPost = new HttpPost(url_select);
+                httpPost.setEntity(new UrlEncodedFormEntity(param));
+                HttpResponse httpResponse = httpClient.execute(httpPost);
+                HttpEntity httpEntity = httpResponse.getEntity();
+
+                // Read content & Log
+                inputStream = httpEntity.getContent();
+            } catch (UnsupportedEncodingException e1) {
+                Log.e("UnsupportedEncoding", e1.toString());
+                e1.printStackTrace();
+            } catch (ClientProtocolException e2) {
+                Log.e("ClientProtocolException", e2.toString());
+                e2.printStackTrace();
+            } catch (IllegalStateException e3) {
+                Log.e("IllegalStateException", e3.toString());
+                e3.printStackTrace();
+            } catch (IOException e4) {
+                Log.e("IOException", e4.toString());
+                e4.printStackTrace();
+            }
+            // Convert response to string using String Builder
+            try {
+                BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
+                StringBuilder sBuilder = new StringBuilder();
+
+                String line = null;
+                while ((line = bReader.readLine()) != null) {
+                    sBuilder.append(line + "\n");
+                }
+
+                inputStream.close();
+                result = sBuilder.toString();
+
+            } catch (Exception e) {
+                Log.e("StringBuilding & ", "Error converting result " + e.toString());
+            }
+            return null;
+        }
+        protected void onPostExecute(Void v) {
+            //parse JSON data
+            Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
+            try {
+                JSONArray jArray = new JSONArray(result);
+                for(int i=0; i < jArray.length(); i++) {
+
+                    JSONObject jObject = jArray.getJSONObject(i);
+
+                    String name = jObject.getString("name");
+                    String tab1_text = jObject.getString("tab1_text");
+                    int active = jObject.getInt("active");
+
+                } // End Loop
+                this.progressDialog.dismiss();
+            } catch (JSONException e) {
+                Log.e("JSONException", "Error: " + e.toString());
+            } // catch (JSONException e)
+        } // protected void onPostExecute(Void v)
     }
 
 
