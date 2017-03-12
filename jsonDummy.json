@@ -12,6 +12,11 @@
             "name": "layout_height"
         },
         {
+            "value:": "button1",
+            "type": "ref",
+            "name" :"id"
+        },
+        {
             "value": "true",
             "type": "BOOLEAN",
             "name": "layout_alignParentRight"
