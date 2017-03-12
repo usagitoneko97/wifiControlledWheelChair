@@ -7,7 +7,7 @@
             "name": "layout_width"
         },
         {   "value":"button1",
-            "type" :"string",
+            "type" :"ref",
             "name" :"id"
         },
         {
