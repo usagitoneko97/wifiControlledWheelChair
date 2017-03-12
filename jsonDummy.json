@@ -6,6 +6,10 @@
             "type": "dimen",
             "name": "layout_width"
         },
+        {   "value":"button1",
+            "type" :"string",
+            "name" :"id"
+        },
         {
             "value": "wrap_content",
             "type": "dimen",
