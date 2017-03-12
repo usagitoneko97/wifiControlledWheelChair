@@ -12,7 +12,7 @@
             "name": "layout_height"
         },
         {
-            "value:": "button1",
+            "value": "button1",
             "type": "ref",
             "name" :"id"
         },
