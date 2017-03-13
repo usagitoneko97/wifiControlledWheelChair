@@ -41,7 +41,7 @@
   "type":"ref",
   "name":"id"
   }],
-  "widget":"Button"
+  "widget":"Switch"
 
 },
 {
@@ -81,7 +81,7 @@
 "type":"ref",
 "name":"layout_below"
 }],
-"widget":"Button"
+"widget":"Switch"
 },
 {
 "views" :[],
@@ -120,7 +120,7 @@
 "type":"ref",
 "name":"layout_below"
 }],
-"widget":"Button"
+"widget":"Switch"
 },
 {
 "views" :[],
@@ -159,7 +159,7 @@
 "type":"ref",
 "name":"layout_below"
 }],
-"widget":"Button"
+"widget":"Switch"
 }],
 
 
@@ -172,6 +172,7 @@
 "value":"wrap_content",
 "type":"dimen",
 "name":"layout_height"
-}]
+}],
+ "widget": "RelativeLayout"
 }
   
