@@ -1,68 +1,177 @@
 {
-    "views": [{
-        "views": [],
-        "properties": [{
-            "value": "wrap_content",
-            "type": "dimen",
-            "name": "layout_width"
-        },
-        {
-            "value": "wrap_content",
-            "type": "dimen",
-            "name": "layout_height"
-        },
-        {
-            "value": "button1",
-            "type": "ref",
-            "name" :"id"
-        },
-        {
-            "value": "true",
-            "type": "BOOLEAN",
-            "name": "layout_alignParentRight"
-        },
-        {
-            "value": "true",
-            "type": "BOOLEAN",
-            "name": "layout_alignParentTop"
-        },
-        {
-            "value": "#ef7047",
-            "type": "color",
-            "name": "textColor"
-        },
-        {
-            "value": "#ffffff",
-            "type": "color",
-            "name": "background"
-        },
-        {
-            "value": "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",
-            "type": "base64",
-            "name": "drawableRight"
-        },
-        {
-            "value": "10dp",
-            "type": "dimen",
-            "name": "layout_margin"
-        },
-        {
-            "value": "Rate us",
-            "type": "string",
-            "name": "text"
-        }],
-        "widget": "Button"
-    }],
-    "properties": [{
-        "value": "match_parent",
-        "type": "dimen",
-        "name": "layout_width"
-    },
-    {
-        "value": "match_parent",
-        "type": "dimen",
-        "name": "layout_height"
-    }],
-    "widget": "RelativeLayout"
+"views":[{
+  "views" :[],
+  "properties" :[{
+    "value":"wrap_content",
+    "type":"dimen",
+    "name":"layout_width"
+  },
+  {
+    "value":"wrap_content",
+    "type":"dimen",
+    "name":"layout_height"
+  },
+  {
+  "value":"true",
+  "type":"BOOLEAN",
+  "name":"layout_alignParentLeft"
+  },
+  {
+  "value":"true",
+  "type":"BOOLEAN",
+  "name":"layout_alignParentStart"
+  },
+  {
+  "value":"true",
+  "type":"BOOLEAN",
+  "name":"layout_alignParentTop"
+  },
+  {
+  "value":"30dp",
+  "type":"dimen",
+  "name":"layout_marginTop"
+  },
+  {
+  "value":"Led2",
+  "type":"String",
+  "name":"id"
+  },
+  {
+  "value":"Led2",
+  "type":"ref",
+  "name":"id"
+  }],
+  "widget":"Button"
+
+},
+{
+"views" :[],
+"properties" :[{
+  "value":"wrap_content",
+  "type":"dimen",
+  "name":"layout_width"
+},
+{
+  "value":"wrap_content",
+  "type":"dimen",
+  "name":"layout_height"
+},
+{
+"value":"true",
+"type":"BOOLEAN",
+"name":"layout_alignParentLeft"
+},
+{
+"value":"true",
+"type":"BOOLEAN",
+"name":"layout_alignParentStart"
+},
+{
+"value":"Green Led",
+"type":"String",
+"name":"id"
+},
+{
+"value":"ledGreen",
+"type":"ref",
+"name":"id"
+},
+{
+"value":"led2",
+"type":"ref",
+"name":"layout_below"
+}],
+"widget":"Button"
+},
+{
+"views" :[],
+"properties" :[{
+  "value":"wrap_content",
+  "type":"dimen",
+  "name":"layout_width"
+},
+{
+  "value":"wrap_content",
+  "type":"dimen",
+  "name":"layout_height"
+},
+{
+"value":"true",
+"type":"BOOLEAN",
+"name":"layout_alignParentLeft"
+},
+{
+"value":"true",
+"type":"BOOLEAN",
+"name":"layout_alignParentStart"
+},
+{
+"value":"Blue Led",
+"type":"String",
+"name":"id"
+},
+{
+"value":"ledBlue",
+"type":"ref",
+"name":"id"
+},
+{
+"value":"ledGreen",
+"type":"ref",
+"name":"layout_below"
+}],
+"widget":"Button"
+},
+{
+"views" :[],
+"properties" :[{
+  "value":"wrap_content",
+  "type":"dimen",
+  "name":"layout_width"
+},
+{
+  "value":"wrap_content",
+  "type":"dimen",
+  "name":"layout_height"
+},
+{
+"value":"true",
+"type":"BOOLEAN",
+"name":"layout_alignParentLeft"
+},
+{
+"value":"true",
+"type":"BOOLEAN",
+"name":"layout_alignParentStart"
+},
+{
+"value":"Orange Led",
+"type":"String",
+"name":"id"
+},
+{
+"value":"ledOrange",
+"type":"ref",
+"name":"id"
+},
+{
+"value":"ledBlue",
+"type":"ref",
+"name":"layout_below"
+}],
+"widget":"Button"
+}],
+
+
+"properties" :[{
+"value":"wrap_content",
+"type":"dimen",
+"name":"layout_width"
+},
+{
+"value":"wrap_content",
+"type":"dimen",
+"name":"layout_height"
+}]
 }
-```# ## ### [AAA](AAA)
+  
