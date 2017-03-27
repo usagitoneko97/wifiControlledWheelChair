@@ -252,7 +252,7 @@
             android:src="@drawable/ic_settings_icon"
             android:layout_alignBottom="@id/croller"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="83dp">
+            android:layout_marginRight="75dp">
 
         </ImageView>
 

@@ -132,7 +132,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks, 
         switch (v.getId()){
             case R.id.led2:
                 if(led2.isChecked()){
-                    tickerView.setText("65");
+                    //tickerView.setText("65");
                     allLedStatus.set(LED2, true);
                 }
                 else{
@@ -141,7 +141,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks, 
                 break;
             case R.id.ledGreen:
                 if(ledGreen.isChecked()){
-                    tickerView.setText("89");
+                    //tickerView.setText("89");
                     allLedStatus.set(LED_GREEN, true);
                 }
                 else{
@@ -150,7 +150,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks, 
                 break;
             case R.id.ledBlue:
                 if(ledBlue.isChecked()){
-                    tickerView.setText("63");
+                    //tickerView.setText("63");
                     allLedStatus.set(LED_BLUE, true);
                 }
                 else{
@@ -159,7 +159,7 @@ public class MainFragment extends Fragment implements Loading_dialog.Callbacks, 
                 break;
             case R.id.ledOrange:
                 if(ledOrange.isChecked()){
-                    tickerView.setText("63");
+                    //tickerView.setText("63");
                     allLedStatus.set(LED_ORANGE, true);
                 }
                 else{

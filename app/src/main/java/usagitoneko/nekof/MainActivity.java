@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
         /*PostResponseAsyncTask task = new PostResponseAsyncTask(this, this);
         task.execute("file:///C:/Users/user/Documents/jsonDummy1.json");*/
-        new MyAsyncTask().execute("https://github.com/usagitoneko97/Stm32-and-nfc02A1-led-control/blob/finalOfLayout/jsonDummy1.json");
+        //new MyAsyncTask().execute("https://github.com/usagitoneko97/Stm32-and-nfc02A1-led-control/blob/finalOfLayout/jsonDummy1.json");
 
         //listen to button clicks
         if (mNfcAdapter == null) {
@@ -565,7 +565,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
         protected Void doInBackground(String... params) {
 
             //String url_select = "http://raw.githubusercontent.com/usagitoneko97/Stm32-and-nfc02A1-led-control/finalOfLayout/jsonDummy1.json";
-            String url_select = "https://jsonparsingdemo-cec5b.firebaseapp.com/jsonData/moviesDemoItem.txt";
+            String url_select = "https://quarkbackend.com/getfile/hogouxian/jsontest";
             ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
             try {
@@ -630,9 +630,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
             } // catch (JSONException e)
         } // protected void onPostExecute(Void v)
     }
-
-
-
 }
 
 // TODO: 3/7/2017 add info on all the how the things work
