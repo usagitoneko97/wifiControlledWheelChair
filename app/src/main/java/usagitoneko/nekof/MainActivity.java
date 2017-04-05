@@ -30,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -98,23 +99,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
 
 
     private ViewPager pager;
+    private EditText password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.init_activity);
+        setContentView(R.layout.wheel_chair);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("NFC Application");
-        toolbar.setTitleTextColor(Color.WHITE);
-        bundle = new Bundle();
-        bundle.putBoolean("firstClick", false);
-        pageAdapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager(), bundle);
-        pager = (ViewPager)findViewById(R.id.pager);
-        pager.setAdapter(pageAdapter);
+        password = (EditText)findViewById(R.id.password);
 
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(pager);
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         /*PostResponseAsyncTask task = new PostResponseAsyncTask(this, this);
@@ -218,83 +210,45 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSo
     }
     @Override
     public void onNewIntent(Intent intent) {
-        bundle.putBoolean("firstClick", true);
-        FragmentLog fragmentLog = (FragmentLog) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":1");
-        log = (TextView) fragmentLog.getView().findViewById(R.id.log);
-        log.setText("New intent received!");
+
         //stop the fragment dialog
-        Fragment dialog = getSupportFragmentManager().findFragmentByTag("Loading_dialog");
-        if(dialog!=null){
-            DialogFragment df = (DialogFragment)dialog;
-            Toast.makeText(this, "not NULL", Toast.LENGTH_SHORT).show();
-            df.dismiss();
-        }
 
         if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction()))
         {
-            log.append("\nNfc type intent: ACTION_TECH_DISCOVERED");
+
             Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             NfcV nfcv = NfcV.get(detectedTag);
             if(nfcv == null){
-                log.append("\nError! NfcV not detected");
+
                 //not nfcV type
             }
             else {
                 try {
                     nfcv.connect();
                     if (nfcv.isConnected()) {
-                        log.append("\nsucessfully connected to nfc type V");
+
                         byte[] buffer;
-                            log.append("\nBegin writing to tag...");
-                            int resultAllLed = 0x10;//initial value predefined
-                            if (allLedStatus.get(LED2)) {
-                                resultAllLed = resultAllLed | (1 << 0); //set bit 0
-                            }
-                            if (allLedStatus.get(LED_GREEN)) {
-                                resultAllLed = resultAllLed | (1 << 1); //set bit 1
-                            }
-                            if (allLedStatus.get(LED_BLUE)) {
-                                resultAllLed = resultAllLed | (1 << 2); //set bit 2
-                            }
-                            if (allLedStatus.get(LED_ORANGE)) {
-                                resultAllLed = resultAllLed | (1 << 3); //set bit 3
-                            }
-                            buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) resultAllLed, (byte) 0x00, (byte) 0x72, (byte) 0x75}); //11 instead of 01 is because to avoid nfcv cant read 00 bug
+
+                        int passwordINT = Integer.valueOf(password.getText().toString());
+                        Log.v("intent", String.valueOf(passwordINT));
+                            buffer = nfcv.transceive(new byte[]{(byte) 0x02, (byte) 0x21, (byte) 0, (byte) ((passwordINT & 0xff00)>>8), (byte) (passwordINT&0x00ff), (byte) 0x72, (byte) 0x75}); //11 instead of 01 is because to avoid nfcv cant read 00 bug
                             // TODO: 23/2/2017   should do checking at buffer
                             Toast.makeText(this, "successfully write in the tag! ", Toast.LENGTH_SHORT).show();
-                            log.append("\nsuccessfully write in the tag! ");
 
-                            log.append("\nBegin Reading from tag...");
                             MainFragment mainFragment = (MainFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.pager + ":0");
 
 
                             String buffer_hex;
                             buffer = nfcv.transceive(new byte[]{0x02, 0x20, (byte) 0}); //read 0th byte (total 4 bytes)
-                            log.append("\nsuccessfully read from the tag! ");
-                            int ledStatus = toInteger(buffer);
 
-                            log.append("led status: " + ledStatus + ", " + numberToHex(ledStatus));
-                            LedState ledState = new LedState(((TextView) mainFragment.getView().findViewById(R.id.nfc_result)) ,log, ledStatus);
-                            bundle.putBoolean("led2", ledState.isLed2State());
-                            bundle.putBoolean("ledGreen", ledState.isGreenLedState());
-                            bundle.putBoolean("ledBlue", ledState.isBlueLedState());
-                            bundle.putBoolean("ledOrange", ledState.isOrangeLedState());
-                            ledState.printLedState(ledState.LED2);
-                            ledState.printLedState(ledState.BLUE);
-                            ledState.printLedState(ledState.GREEN);
-                            ledState.printLedState(ledState.ORANGE);
-                            JellyToggleButton led2 = (JellyToggleButton) mainFragment.getView().findViewById(R.id.led2);
-                            JellyToggleButton ledGreen = (JellyToggleButton) mainFragment.getView().findViewById(R.id.ledGreen);
-                            JellyToggleButton ledBlue = (JellyToggleButton) mainFragment.getView().findViewById(R.id.ledBlue);
-                            JellyToggleButton ledOrange = (JellyToggleButton) mainFragment.getView().findViewById(R.id.ledOrange);
 
-                            log.append("\nClosing nfcv connection...");
+
                         nfcv.close();
 
                     }else
-                        log.append("\nNot connected to the tag");
+                        Log.e("Error", ":ERROR");
                 } catch (IOException e) {
-                    log.append("\nError");
+                    Log.e("Error", ":ERROR");
                 }
 
             }
